@@ -19,7 +19,7 @@ const Items = ({ list }) => (
     >
       {list.map(item => (
         <li key={item.id} style={style.MasonryList}>
-          <ItemCard item={item} />
+          <ItemCard item={item} owner={item.itemowner.id} />
         </li>
       ))}
     </Masonry>

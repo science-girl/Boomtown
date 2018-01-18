@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 import moment from "moment";
 
@@ -15,24 +16,25 @@ import RaisedButton from "material-ui/RaisedButton";
 import style from "./styles.js";
 
 // largely copy and pasted code from Material-UI site
-const ItemCard = ({ item }) => (
+const ItemCard = ({ item, owner }) => (
   <Card>
     <CardMedia>
       <img src={item.imageurl} alt="" />
     </CardMedia>
-    (/*Only show the overlay when the item has a borrower */}
+    (/*TODO: change to uppercase w/ text-transform */}
     {item.borrower !== null && (
       <CardMedia
-        overlay={
-          <CardTitle style={style.LentText}>Lent to {item.borrower}</CardTitle>
-        }
+        overlayContentStyle={style.CardText}
+        overlay={<CardTitle subtitle={`Lent to ${item.borrower}`} />}
       />
     )}
-    <CardHeader
-      title={item.itemowner.fullname}
-      subtitle={moment(item.created).fromNow()}
-      avatar={item.itemowner.gravatarurl}
-    />
+    <Link to={`/profile/${owner}`}>
+      <CardHeader
+        title={item.itemowner.fullname}
+        subtitle={moment(item.created).fromNow()}
+        avatar={item.itemowner.gravatarurl}
+      />
+    </Link>
     <CardTitle title={item.title} subtitle={item.tags} />
     <CardText>{item.description}</CardText>
     {/* Only show the 'Borrow' button when the item hasn't been loaned */}

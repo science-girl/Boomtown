@@ -2,11 +2,13 @@ import React from "react";
 import AppBar from "material-ui/AppBar";
 import RaisedButton from "material-ui/RaisedButton";
 import Filter from "./FilterSelection";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
+import Profile from "../../../containers/Profile/ProfileContainer";
 import image from "../../../images/boomtown-logo.svg";
 import style from "./styles.js";
+import styles from "./styles.css";
 
 // largely copy and pasted from material-ui
 
@@ -27,18 +29,22 @@ const AppsBar = ({ match, history }) => (
       </div>
     }
     iconElementRight={
-      <span>
-        <RaisedButton
-          label="My Profile"
-          primary={true}
-          onClick={() => history.push("/profile")}
-        />{" "}
-        <RaisedButton
-          label="Logout"
-          secondary={true}
-          onClick={() => history.push("/login")}
-        />
-      </span>
+      <div className="headerButtonWrapper">
+        <div>
+          <Link to={`/profile/eEvh1WUF5nb5eeUksUQb3Ph0kOU2`}>
+            <RaisedButton
+              label="My Profile"
+              primary={true}
+              // onClick={() => history.push("/profile")}
+            />
+          </Link>{" "}
+          <RaisedButton
+            label="Logout"
+            secondary={true}
+            onClick={() => history.push("/login")}
+          />
+        </div>
+      </div>
     }
   />
 );

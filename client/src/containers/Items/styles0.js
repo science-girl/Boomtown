@@ -5,9 +5,6 @@ const style = {
   MasonryList: {
     width: "30%",
     margin: "10px"
-  },
-  CardText: {
-    textTransform: "uppercase"
   }
 };
 

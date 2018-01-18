@@ -1,0 +1,7 @@
+@media only screen and (min-width: 800px)
+.profileHeader {
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    font-size: 1rem;
+    margin: 0px auto;
+}
