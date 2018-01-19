@@ -280,7 +280,9 @@ function countBorrowedItemsByUserId(items, userId) {
 // count the number of Items owned by a given user
 // @param list of items, userId to match ownerid
 // @return number items owned by the matching userid
-function countOwnedItemsByUserId(items, userId) {}
+function countOwnedItemsByUserId(items, userId) {
+  return items.filter(item => item.itemowner.id === userId).length;
+}
 
 console.log(
   countBorrowedItemsByUserId(inventory, "eEvh1WUF5nb5eeUksUQb3Ph0kOU2")

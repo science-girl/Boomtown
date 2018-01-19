@@ -64,21 +64,7 @@ export const fetchItemsAndUsers = () => dispatch => {
     .catch(error => dispatch(getItemsError(error.message)));
 };
 
-//MANDI'S CODE
-// return Promise.all(
-//   [JSON_ITEM_DB, JSON_USER_DB].map(url =>
-//     fetch(url).then(response => response.json()),).then(json => {
-//       const[items, users] = json;
-//       const itemsWithOwnders - items.map(item=> {
-//         const itemowner = users.filter(user=> user.id === item.itemowner);
-//         item.itemowner = itemowner[0];
-//         return item;
-//       })
-//     })
-//   )
-// );
-
-// reducers
+// REDUCERS
 export default (state = {}, action) => {
   state = {
     isLoading: false,

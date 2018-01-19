@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import Profile from "./Profile.js";
 import UserCard from "./UserCard";
 import style from "./styles.js";
-import styles from "./styles.js";
+import styles from "./styles.css";
 
 const JSON_ITEM_DB = "http://localhost:3001/items";
 const JSON_USER_DB = "http://localhost:3001/users";
@@ -20,7 +20,7 @@ export default class ProfileContainer extends Component {
       users: {},
       isLoading: true,
       currentView: {},
-      userInfo: {}
+      profileCardInfo: {}
     };
   }
 
@@ -47,6 +47,7 @@ export default class ProfileContainer extends Component {
           id: this.state.users[index].id,
           email: this.state.users[index].email,
           fullname: this.state.users[index].fullname,
+          bio: this.state.users[index].bio,
           gravatarurl: gravatarUrl
         };
       }
@@ -60,6 +61,8 @@ export default class ProfileContainer extends Component {
         return item;
       });
 
+      //
+      // LOGIC for extracting the items belonging to the userId in the url
       // get the userId from the URL:
       let url = this.props.match.url;
       url = url.substr(url.lastIndexOf("/") + 1, url.length);
@@ -68,11 +71,27 @@ export default class ProfileContainer extends Component {
         // if item.itemowner.id matches given userId, include it in the lists
         if (item.itemowner.id === url) return item;
       });
+      console.log(combined);
+      // for the given user, add:
+      // - number of items borrowed
+      // - number of items owned
+
+      let profileHash = {};
+      profileHash[url] = {
+        fullname: userHashTable[url].fullname,
+        bio: userHashTable[url].bio,
+        gravatarurl: userHashTable[url].gravatarurl,
+        numBorrowedItems: combined.filter(
+          item => item.borrower === userHashTable[url].fullname
+        ).length,
+        numOwnedItems: combined.filter(item => item.itemowner.id === url).length
+      };
 
       this.setState({
         items: profileItems,
         currentView: profileItems,
-        isLoading: combined.length < 0
+        isLoading: combined.length < 0,
+        profileCardInfo: profileHash[url]
       });
     });
   }
@@ -84,7 +103,13 @@ export default class ProfileContainer extends Component {
       </div>
     ) : (
       <div className="profileHeader">
-        <UserCard />
+        <UserCard
+          bio={this.state.profileCardInfo.bio}
+          fullname={this.state.profileCardInfo.fullname}
+          gravatarurl={this.state.profileCardInfo.gravatarurl}
+          numBorrowed={this.state.profileCardInfo.numBorrowedItems}
+          numOwned={this.state.profileCardInfo.numOwnedItems}
+        />
         <Profile list={this.state.currentView} />
       </div>
     );

@@ -8,23 +8,19 @@ import {
   CardText
 } from "material-ui/Card";
 
-const UserCard = props => {
+const UserCard = ({ bio, fullname, gravatarurl, numBorrowed, numOwned }) => {
   return (
     <div>
       <Card>
         <CardHeader
-          title="URL Avatar"
-          subtitle="Subtitle"
-          avatar="images/ok-128.jpg"
+          avatar={gravatarurl}
+          title={fullname}
+          subtitle={bio}
           actAsExpander={false}
           showExpandableButton={false}
         />
-        <CardText expandable={false}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mattis
-          pretium massa. Aliquam erat volutpat. Nulla facilisi. Donec vulputate
-          interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-          Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-        </CardText>
+        <CardText expandable={false}>Number Borrowed: {numBorrowed}</CardText>
+        <CardText expandable={false}>Number Owned: {numOwned}</CardText>
       </Card>
     </div>
   );
