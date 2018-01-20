@@ -1,12 +1,12 @@
 import React from "react";
 import AppBar from "material-ui/AppBar";
 import RaisedButton from "material-ui/RaisedButton";
-import Filter from "./FilterSelection";
-import { Link, withRouter } from "react-router-dom";
+import FilterContainer from "../Filter/FilterSelection";
+import { Route, Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import Profile from "../../../containers/Profile/ProfileContainer";
-import image from "../../../images/boomtown-logo.svg";
+import Profile from "../../containers/Profile/ProfileContainer";
+import image from "../../images/boomtown-logo.svg";
 import style from "./styles.js";
 import styles from "./styles.css";
 
@@ -20,23 +20,19 @@ const AppsBar = ({ match, history }) => (
         style={style.imageLogo}
         src={image}
         alt="boomtown icon"
-        onClick={() => history.push("/")}
+        onClick={() => history.push("/items")}
       />
     }
     title={
       <div style={style.filterWrapper}>
-        <Filter />
+        <Route exact path="/items" component={FilterContainer} />
       </div>
     }
     iconElementRight={
       <div className="headerButtonWrapper">
         <div>
           <Link to={`/profile/eEvh1WUF5nb5eeUksUQb3Ph0kOU2`}>
-            <RaisedButton
-              label="My Profile"
-              primary={true}
-              // onClick={() => history.push("/profile")}
-            />
+            <RaisedButton label="My Profile" primary={true} />
           </Link>{" "}
           <RaisedButton
             label="Logout"

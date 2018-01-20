@@ -1,22 +1,29 @@
 // ACTION TYPES
 const GET_ITEMS_LOADING = "GET_ITEMS_LOADING";
 const GET_ITEMS_SUCCESS = "GET_ITEMS_SUCCESS";
+const GET_ITEM_TAGS = "GET_ITEM_TAGS";
 const GET_ITEMS_ERROR = "GET_ITEMS_ERROR";
 
 const JSON_ITEM_DB = "http://localhost:3001/items";
 const JSON_USER_DB = "http://localhost:3001/users";
 const GRAVATAR_URL = "http://gravatar.com/avatar/";
 const md5 = require("md5");
+const url = "eEvh1WUF5nb5eeUksUQb3Ph0kOU2";
 
 // ACTION CREATORS
 const getItemsLoading = () => ({ type: "GET_ITEMS_LOADING" });
-const getItemsSuccess = items => ({
+export const getItemsSuccess = items => ({
   type: "GET_ITEMS_SUCCESS",
   payload: items
 });
 const getItemsError = errorMessage => ({
   type: "GET_ITEMS_ERROR",
   payload: errorMessage
+});
+export const getItemTags = (items, tagList) => ({
+  type: "GET_ITEM_TAGS",
+  payload: tagList,
+  items: items
 });
 
 // ASYNCH ACTION CREATOR
@@ -55,7 +62,10 @@ export const fetchItemsAndUsers = () => dispatch => {
         let ownerKey = item.itemowner;
         item.itemowner = userHashTable[ownerKey];
         if (item.borrower !== null && item !== undefined) {
-          item.borrower = userHashTable[item.borrower].fullname;
+          item.borrower =
+            item.borrower === url
+              ? "UNAVAILABLE"
+              : userHashTable[item.borrower].fullname;
         }
         return item;
       });
@@ -64,11 +74,28 @@ export const fetchItemsAndUsers = () => dispatch => {
     .catch(error => dispatch(getItemsError(error.message)));
 };
 
+//
+// @param an array of item tags and an array of tags to match the item
+// @return true once one of the item tags matches one of the tags in matchTags
+// false if there is no match.
+function hasTag(itemTags, matchTags) {
+  for (let i = 0; i < itemTags.length; i++) {
+    for (let j = 0; j < matchTags.length; j++) {
+      if (itemTags[i] === matchTags[j]) {
+        return true;
+        break;
+      }
+    }
+  }
+  return false;
+}
+
 // REDUCERS
 export default (state = {}, action) => {
   state = {
     isLoading: false,
     items: [],
+    tagList: [],
     error: ""
   };
 
@@ -82,6 +109,15 @@ export default (state = {}, action) => {
     }
     case GET_ITEMS_ERROR: {
       return { ...state, isLoading: false, error: action.payload };
+    }
+    case GET_ITEM_TAGS: {
+      return {
+        ...state,
+        isLoading: false,
+        items: action.items,
+        tagList: action.payload,
+        error: ""
+      };
     }
     default:
       return state;

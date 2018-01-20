@@ -8,7 +8,7 @@ import {
   CardText
 } from "material-ui/Card";
 
-const UserCard = ({ bio, fullname, gravatarurl, numBorrowed, numOwned }) => {
+const UserCard = ({ bio, fullname, gravatarurl, numBorrowed, numShared }) => {
   return (
     <div>
       <Card>
@@ -20,7 +20,7 @@ const UserCard = ({ bio, fullname, gravatarurl, numBorrowed, numOwned }) => {
           showExpandableButton={false}
         />
         <CardText expandable={false}>Number Borrowed: {numBorrowed}</CardText>
-        <CardText expandable={false}>Number Owned: {numOwned}</CardText>
+        <CardText expandable={false}>Number Shared: {numShared}</CardText>
       </Card>
     </div>
   );

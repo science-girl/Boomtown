@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
+import { connect } from "react-redux";
+import { getItemTags, fetchItemsAndUsers } from "../../redux/modules/items";
 
 // largely copy and pasted from material-ui
 
@@ -17,15 +19,14 @@ const names = [
 /**
  * `SelectField` can handle multiple selections. It is enabled with the `multiple` property.
  */
-export default class FilterSelection extends Component {
+class FilterSelection extends Component {
   state = {
     values: []
   };
 
   handleChange = (event, index, values) => {
     this.setState({ values });
-    // TODO: this is where we will implement filtering
-    console.log({ values });
+    this.props.dispatch(getItemTags(this.props.items, values));
   };
 
   menuItems(values) {
@@ -45,7 +46,6 @@ export default class FilterSelection extends Component {
     return (
       <div>
         <SelectField
-          ref="headerSelector"
           multiple={true}
           hintText="Filter by Tag"
           value={values}
@@ -57,3 +57,14 @@ export default class FilterSelection extends Component {
     );
   }
 }
+
+// Convention is to name mapStateToProps
+// retrieve the state from the store and plug it into props for react
+const mapStateToProps = state => ({
+  isLoading: state.items.isLoading,
+  items: state.items.items,
+  tags: state.items.tags,
+  error: state.items.error
+});
+
+export default connect(mapStateToProps)(FilterSelection);

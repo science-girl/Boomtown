@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 
 import ItemsContainer from "./ItemsContainer";
 import ShareButton from "../../components/Buttons/ShareButton.js";
