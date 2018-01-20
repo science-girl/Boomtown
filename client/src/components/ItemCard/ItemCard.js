@@ -21,11 +21,10 @@ const ItemCard = ({ item, owner }) => (
     <CardMedia>
       <img src={item.imageurl} alt="" />
     </CardMedia>
-    (/*TODO: change to uppercase w/ text-transform */}
     {item.borrower !== null && (
       <CardMedia
         overlayContentStyle={style.CardText}
-        overlay={<CardTitle subtitle={`Lent to ${item.borrower}`} />}
+        overlay={<CardTitle subtitle={item.borrower} />}
       />
     )}
     <Link to={`/profile/${owner}`}>
@@ -37,16 +36,18 @@ const ItemCard = ({ item, owner }) => (
     </Link>
     <CardTitle title={item.title} subtitle={item.tags} />
     <CardText>{item.description}</CardText>
-    {/* Only show the 'Borrow' button when the item hasn't been loaned */}
-    {item.borrower === null && (
-      <CardActions>
-        <RaisedButton
-          backgroundColor="#263238"
-          labelColor="white"
-          label="Borrow"
-        />
-      </CardActions>
-    )}
+    {/*Only show the 'Borrow' button when not on the current user's profile page
+    Only show the 'Borrow' button when the item hasn't been loaned */}
+    {item.borrower === null &&
+      item.itemowner.id !== owner && (
+        <CardActions>
+          <RaisedButton
+            backgroundColor="#263238"
+            labelColor="white"
+            label="Borrow"
+          />
+        </CardActions>
+      )}
   </Card>
 );
 
