@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import CircularProgress from "material-ui/CircularProgress";
+import { Loading } from "../../components/Loading/Loading";
 import PropTypes from "prop-types";
 
 import { fetchItemsAndUsers, getItemTags } from "../../redux/modules/items";
@@ -52,13 +52,7 @@ class ItemsContainer extends Component {
 
   render() {
     return this.props.isLoading ? (
-      <div className="loading">
-        <CircularProgress
-          size={80}
-          thickness={5}
-          // {/*color={theme.palette.multicolor}*/}
-        />
-      </div>
+      <Loading />
     ) : (
       <Items list={this.filterTags(this.props.items, this.props.tagList)} />
     );

@@ -118,7 +118,7 @@ export default (state = {}, action) => {
       };
     }
     case GET_PROFILE_ERROR: {
-      return { ...state, isLoading: false, error: action.payload };
+      return { ...state, isLoading: true, error: action.payload };
     }
     default:
       return state;

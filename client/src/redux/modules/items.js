@@ -110,7 +110,7 @@ export default (state = {}, action) => {
       return { ...state, isLoading: false, items: action.payload, error: "" };
     }
     case GET_ITEMS_ERROR: {
-      return { ...state, isLoading: false, error: action.payload };
+      return { ...state, isLoading: true, error: action.payload };
     }
     case GET_ITEM_TAGS: {
       return {

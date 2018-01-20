@@ -1,13 +1,12 @@
 import React, { Component } from "react";
-import CircularProgress from "material-ui/CircularProgress";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { fetchItemsAndUsers } from "../../redux/modules/profile";
 import Profile from "./Profile.js";
 import UserCard from "./UserCard";
+import { Loading } from "../../components/Loading/Loading";
 import style from "./styles.js";
-import styles from "./styles.css";
 
 class ProfileContainer extends Component {
   static propTypes = {};
@@ -18,9 +17,7 @@ class ProfileContainer extends Component {
 
   render() {
     return this.props.isLoading ? (
-      <div className="loading">
-        <CircularProgress size={80} thickness={5} />
-      </div>
+      <Loading />
     ) : (
       <div className="profileHeader">
         <UserCard
