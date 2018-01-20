@@ -75,10 +75,7 @@ export const fetchItemsAndUsers = props => dispatch => {
         let ownerKey = item.itemowner;
         item.itemowner = userHashTable[ownerKey];
         if (item.borrower !== null && item !== undefined) {
-          item.borrower =
-            item.borrower === url
-              ? "UNAVAILABLE"
-              : userHashTable[item.borrower].fullname;
+          item.borrower = "Lent to " + userHashTable[item.borrower].fullname;
         }
         return item;
       });

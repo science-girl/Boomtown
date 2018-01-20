@@ -8,7 +8,8 @@ const JSON_ITEM_DB = "http://localhost:3001/items";
 const JSON_USER_DB = "http://localhost:3001/users";
 const GRAVATAR_URL = "http://gravatar.com/avatar/";
 const md5 = require("md5");
-const url = "eEvh1WUF5nb5eeUksUQb3Ph0kOU2";
+// TODO: remove dummy data once oath is in place
+const LOGGED_IN_USER = "eEvh1WUF5nb5eeUksUQb3Ph0kOU2";
 
 // ACTION CREATORS
 const getItemsLoading = () => ({ type: "GET_ITEMS_LOADING" });
@@ -62,10 +63,11 @@ export const fetchItemsAndUsers = () => dispatch => {
         let ownerKey = item.itemowner;
         item.itemowner = userHashTable[ownerKey];
         if (item.borrower !== null && item !== undefined) {
+          // item is 'UNAVAILABLE' if the item doesn't belong to the current owner
           item.borrower =
-            item.borrower === url
+            item.itemowner.id !== LOGGED_IN_USER
               ? "UNAVAILABLE"
-              : userHashTable[item.borrower].fullname;
+              : "Lent to " + userHashTable[item.borrower].fullname;
         }
         return item;
       });
