@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import { fetchItemsAndUsers } from "../../redux/modules/profile";
 import Profile from "./Profile.js";
-import UserCard from "./UserCard";
+import UserCard from "../../components/UserCard/UserCard";
 import { Loading } from "../../components/Loading/Loading";
 import "./styles.css";
 
