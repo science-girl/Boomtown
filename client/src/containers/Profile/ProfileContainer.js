@@ -1,15 +1,24 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import { fetchItemsAndUsers } from "../../redux/modules/profile";
 import Profile from "./Profile.js";
 import UserCard from "./UserCard";
 import { Loading } from "../../components/Loading/Loading";
-import style from "./styles.js";
+import "./styles.css";
 
 class ProfileContainer extends Component {
-  static propTypes = {};
+  static propTypes = {
+    isLoading: PropTypes.bool.isRequired,
+    items: PropTypes.array.isRequired,
+    tagList: PropTypes.array.isRequired,
+    bio: PropTypes.string.isRequired,
+    fullname: PropTypes.string.isRequired,
+    gravatar: PropTypes.string.isRequired,
+    numBorrowed: PropTypes.number.isRequired,
+    numShared: PropTypes.number.isRequired
+  };
 
   componentDidMount() {
     this.props.dispatch(fetchItemsAndUsers(this.props));

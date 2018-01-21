@@ -1,6 +1,6 @@
 import React from "react";
 import CircularProgress from "material-ui/CircularProgress";
-import style from "./styles.css";
+import "./styles.css";
 
 export const Loading = () => {
   return (

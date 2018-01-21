@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import { connect } from "react-redux";
-import { getItemTags, fetchItemsAndUsers } from "../../redux/modules/items";
+import { getItemTags } from "../../redux/modules/items";
 
 // largely copy and pasted from material-ui
 

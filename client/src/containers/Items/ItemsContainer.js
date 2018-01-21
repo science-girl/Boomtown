@@ -3,13 +3,16 @@ import { connect } from "react-redux";
 import { Loading } from "../../components/Loading/Loading";
 import PropTypes from "prop-types";
 
-import { fetchItemsAndUsers, getItemTags } from "../../redux/modules/items";
+import { fetchItemsAndUsers } from "../../redux/modules/items";
 import Items from "./Items";
-import style from "./styles.js";
 
 class ItemsContainer extends Component {
   // propTypes convention for classes
-  static propTypes = {};
+  static propTypes = {
+    isLoading: PropTypes.bool.isRequired,
+    items: PropTypes.array.isRequired,
+    tagList: PropTypes.array.isRequired
+  };
 
   componentDidMount() {
     this.props.dispatch(fetchItemsAndUsers());
@@ -43,7 +46,6 @@ class ItemsContainer extends Component {
       for (let j = 0; j < matchTags.length; j++) {
         if (itemTags[i] === matchTags[j]) {
           return true;
-          break;
         }
       }
     }

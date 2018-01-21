@@ -76,22 +76,6 @@ export const fetchItemsAndUsers = () => dispatch => {
     .catch(error => dispatch(getItemsError(error.message)));
 };
 
-//
-// @param an array of item tags and an array of tags to match the item
-// @return true once one of the item tags matches one of the tags in matchTags
-// false if there is no match.
-function hasTag(itemTags, matchTags) {
-  for (let i = 0; i < itemTags.length; i++) {
-    for (let j = 0; j < matchTags.length; j++) {
-      if (itemTags[i] === matchTags[j]) {
-        return true;
-        break;
-      }
-    }
-  }
-  return false;
-}
-
 // REDUCERS
 export default (state = {}, action) => {
   state = {

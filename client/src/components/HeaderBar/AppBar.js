@@ -5,10 +5,8 @@ import FilterContainer from "../Filter/FilterSelection";
 import { Route, Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import Profile from "../../containers/Profile/ProfileContainer";
 import image from "../../images/boomtown-logo.svg";
 import style from "./styles.js";
-import styles from "./styles.css";
 
 // largely copy and pasted from material-ui
 
