@@ -1,0 +1,59 @@
+.user-card{
+   display: flex;
+   margin-top: 40px;
+   margin-bottom: 40px;
+}
+
+@media only screen and (min-width: 800px)
+.user-card{
+  -ms-flex: 0 1 50%;
+  flex: 0 1 50%;
+  max-width: 50%;
+}
+
+.user-info{
+  flex: 2 1 auto;
+  margin-top: 40px;
+  margin-left: 40px;
+}
+
+.user-info h2 {
+  font-size: 2.5rem;
+  line-height: 1.25;
+  margin-bottom: 1rem;
+}
+
+.user-info p {
+    margin-bottom: 1rem;
+    color: rgba(38,50,56,.54);
+}
+
+.user-stats{
+  flex: auto;
+  margin-top: 40px;
+}
+
+.user-stats p {
+    margin-bottom: 1.5rem;
+    color: rgba(38,50,56,.54);
+}
+
+.user-stats span {
+    color: #263238;
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.user-image{
+  justify-content: center;
+  flex: auto;
+
+}
+.user-image img{
+  border-radius: 50%;
+  height: 180px;
+  width: 180px;
+  margin-top: 30px;
+  margin-left: 40px;
+}

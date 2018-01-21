@@ -1,0 +1,83 @@
+.user-card{
+   display: flex;
+   /* flex: 1; */
+   flex-direction: row;
+   /* align-items: center; */
+   /* justify-content: center; */
+   /* align-self:flex-start; */
+   margin-top: 40px;
+   margin-bottom: 40px;
+}
+
+@media only screen and (min-width: 800px)
+.user-card{
+  -ms-flex: 0 1 50%;
+  flex: 0 1 50%;
+  max-width: 50%;
+}
+
+@media only screen and (min-width: 800px)
+.profileHeader>div {
+    /* -ms-flex: 0 1 50%;
+    flex: 0 1 50%;
+    margin: 0 1.5rem;
+    max-width: 50%; */
+}
+
+.profileUserName{
+  margin: 40px;
+}
+.profileHeader>div {
+    /* -ms-flex: 0 1 100%;
+    flex: 0 1 100%;
+    max-width: 100%; */
+}
+
+.profileHeader h2 {
+  font-size: 2.5rem;
+  line-height: 1.25;
+  margin-bottom: 1rem;
+}
+
+.profileHeader p, .profileHeader ul {
+    margin-bottom: 1rem;
+    color: rgba(38,50,56,.54);
+}
+
+.profileMeta {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.profileMeta .shareStats {
+    color: rgba(38,50,56,.54);
+    line-height: 1.5;
+    margin-top: 1rem;
+}
+
+.profileMeta .shareStats p {
+    margin-bottom: 1.5rem;
+}
+
+.profileMeta .shareStats span {
+    color: #263238;
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+@media only screen and (min-width: 800px)
+.profileMeta .gravatarImage {
+    max-width: 100%;
+    max-height: none;
+}
+
+.profileMeta .gravatarImage {
+    border-radius: 50%;
+    max-height: 100px;
+    max-width: 100px;
+}

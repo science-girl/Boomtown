@@ -5,6 +5,7 @@ const GET_PROFILE_ERROR = "GET_PROFILE_ERROR";
 const JSON_ITEM_DB = "http://localhost:3001/items";
 const JSON_USER_DB = "http://localhost:3001/users";
 const GRAVATAR_URL = "http://gravatar.com/avatar/";
+const GRAVATAR_IMG_SIZE = "?s=180";
 const md5 = require("md5");
 
 // ACTION TYPES
@@ -59,7 +60,10 @@ export const fetchItemsAndUsers = props => dispatch => {
       let userHashTable = {};
       for (let index = 0; index < users.length; index++) {
         // create a md5 hash to access gravatar info
-        const gravatarUrl = GRAVATAR_URL.concat(md5(users[index].email));
+        const gravatarUrl = GRAVATAR_URL.concat(md5(users[index].email)).concat(
+          GRAVATAR_IMG_SIZE
+        );
+        console.log(gravatarUrl);
 
         // set user data in a hashmap
         userHashTable[users[index].id] = {

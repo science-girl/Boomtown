@@ -8,6 +8,7 @@ const JSON_ITEM_DB = "http://localhost:3001/items";
 const JSON_USER_DB = "http://localhost:3001/users";
 const GRAVATAR_URL = "http://gravatar.com/avatar/";
 const md5 = require("md5");
+
 // TODO: remove dummy data once oath is in place
 const LOGGED_IN_USER = "eEvh1WUF5nb5eeUksUQb3Ph0kOU2";
 
