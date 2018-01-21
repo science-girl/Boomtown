@@ -31,25 +31,24 @@ class ItemsContainer extends Component {
     // in the case of multiple tags, an item is added to the list once a
     // matching tag has been found.
     return list.filter(item => {
-      if (this.hasTag(item.tags, tags)) {
-        return item;
-      }
+      return this.hasTags(item, tags);
     });
   }
 
   //
-  // @param an array of item tags and an array of tags to match the item
-  // @return true once one of the item tags matches one of the tags in matchTags
-  // false if there is no match.
-  hasTag(itemTags, matchTags) {
-    for (let i = 0; i < itemTags.length; i++) {
-      for (let j = 0; j < matchTags.length; j++) {
-        if (itemTags[i] === matchTags[j]) {
-          return true;
-        }
+  // @param an item and an array of tags to match the item
+  // @return the item once one of the item tags matches one of the tags in matchTags
+  hasTags(item, matchTags) {
+    for (let i = 0; i < item.tags.length; i++) {
+      console.log(item.tags[i]);
+      if (
+        matchTags.some(tag => {
+          return tag === item.tags[i];
+        })
+      ) {
+        return item;
       }
     }
-    return false;
   }
 
   render() {
