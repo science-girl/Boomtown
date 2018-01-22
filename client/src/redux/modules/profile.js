@@ -8,6 +8,9 @@ const GRAVATAR_URL = "http://gravatar.com/avatar/";
 const GRAVATAR_IMG_SIZE = "?s=180";
 const md5 = require("md5");
 
+// TODO: remove dummy data once oath is in place
+const LOGGED_IN_USER = "eEvh1WUF5nb5eeUksUQb3Ph0kOU2";
+
 // ACTION TYPES
 const getProfileLoading = () => ({ type: "GET_PROFILE_LOADING" });
 const getProfileSuccess = (items, profile) => ({
@@ -74,8 +77,16 @@ export const fetchItemsAndUsers = props => dispatch => {
       let combined = items.map(item => {
         let ownerKey = item.itemowner;
         item.itemowner = userHashTable[ownerKey];
-        if (item.borrower !== null && item !== undefined) {
+        // while viewing a profile other than the logged in user,
+        // shows 'unavailable' for lent items not belonging to the logged-in user
+        if (
+          item.borrower !== null &&
+          item !== undefined &&
+          url === LOGGED_IN_USER
+        ) {
           item.borrower = "Lent to " + userHashTable[item.borrower].fullname;
+        } else {
+          item.borrower = "Unavailable";
         }
         return item;
       });
