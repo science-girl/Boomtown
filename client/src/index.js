@@ -20,13 +20,13 @@ const Boomtown = () => (
     <Provider store={store}>
       <Router>
         <div>
-          <Route exact path="/login" component={Login} />
           <Layout>
             <Switch>
+              <Route exact path="/login" component={Login} />
               <Route exact path="/" component={Items} />
               <Route exact path="/items" component={Items} />
               <Route exact path="/profile/:userid" component={Profile} />
-              <Route component={NotFound} />
+              <Route path="*" component={NotFound} />
             </Switch>
           </Layout>
         </div>
