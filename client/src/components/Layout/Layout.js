@@ -12,8 +12,7 @@ const Layout = ({ children }) => (
       <Header />
     </div>
     <div className="appContent">{children}</div>
-    <Route exact path="/items" component={Footer} />
-    {/* And a footer here, but not on the login route... */}
+    <Route path="/login" children={props => (props.match ? "" : <Footer />)} />
   </div>
 );
 
