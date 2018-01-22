@@ -5,8 +5,10 @@ import PropTypes from "prop-types";
 import { fetchItemsAndUsers } from "../../redux/modules/profile";
 import Profile from "./Profile.js";
 import UserCard from "../../components/UserCard/UserCard";
+import ShareButton from "../../components/Buttons/ShareButton.js";
 import { Loading } from "../../components/Loading/Loading";
 import "./styles.css";
+import style from "./styles.js";
 
 class ProfileContainer extends Component {
   static propTypes = {
@@ -31,6 +33,9 @@ class ProfileContainer extends Component {
           numShared={this.props.profile.numSharedItems}
         />
         <Profile list={this.props.items} />
+        <div style={style.FixedButton}>
+          <ShareButton />
+        </div>
       </div>
     );
   }
