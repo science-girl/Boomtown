@@ -22,20 +22,17 @@ const getProfileError = errorMessage => ({
 });
 
 // ASYNCH ACTION CREATOR
-// curried (partially applied) function that accepts dispatch as a parameter
+// (partially applied) function that accepts dispatch as a parameter
 //
 export const fetchItemsAndUsers = props => dispatch => {
   // get the loader spinning
   dispatch(getProfileLoading());
-  //
-  // LOGIC for extracting the items belonging to the userId in the url
-  // get the userId from the URL:
+
   let url = props.match.url;
   url = url.substr(url.lastIndexOf("/") + 1, url.length);
 
   // Fetch JSON and attach to state
   // Use AJAX to get JSON items from the JSON db
-
   // user a query string to only fetch the items that match
   // the given itemowner
   const QUERY_STRING = `${JSON_ITEM_DB}?itemowner=${url}`;
