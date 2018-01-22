@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import registerServiceWorker from "./registerServiceWorker";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { createBrowserHistory } from "history";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 
@@ -20,7 +19,7 @@ import Share from "./containers/Share/ShareContainer";
 const Boomtown = () => (
   <MuiThemeProvider muiTheme={muiTheme}>
     <Provider store={store}>
-      <Router history={createBrowserHistory}>
+      <Router>
         <div>
           <Layout>
             <Switch>
