@@ -14,6 +14,7 @@ import Login from "./containers/Login";
 import Items from "./containers/Items/ItemCardsList";
 import NotFound from "./containers/NotFound";
 import Profile from "./containers/Profile/ProfileContainer";
+import Share from "./containers/Share/ShareContainer";
 
 const Boomtown = () => (
   <MuiThemeProvider muiTheme={muiTheme}>
@@ -25,6 +26,7 @@ const Boomtown = () => (
               <Route exact path="/login" component={Login} />
               <Route exact path="/" component={Items} />
               <Route exact path="/items" component={Items} />
+              <Route exact path="/share" component={Share} />
               <Route exact path="/profile/:userid" component={Profile} />
               <Route path="*" component={NotFound} />
             </Switch>
