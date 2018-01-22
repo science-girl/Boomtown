@@ -10,6 +10,9 @@ import style from "./styles.js";
 
 // largely copy and pasted from material-ui
 
+// TODO: remove dummy data once oath is in place
+const LOGGED_IN_USER = "eEvh1WUF5nb5eeUksUQb3Ph0kOU2";
+
 const AppsBar = ({ match, history }) => (
   <AppBar
     style={style.NavigationBar}
@@ -29,7 +32,7 @@ const AppsBar = ({ match, history }) => (
     iconElementRight={
       <div className="headerButtonWrapper">
         <div>
-          <Link to={`/profile/eEvh1WUF5nb5eeUksUQb3Ph0kOU2`}>
+          <Link to={`/profile/${LOGGED_IN_USER}`}>
             <RaisedButton label="My Profile" primary={true} />
           </Link>{" "}
           <RaisedButton
