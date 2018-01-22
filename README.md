@@ -26,3 +26,5 @@ Boomtown is a web application designed for users to partake in a sharing economy
 -> Users can view their own profile page using the 'Profile' button.
 -> The logout button routes to the login page, but no actual login logic is in place.
 -> The share button exists and leads to a stub page.
+
+NOTE: for testing purposes, the logged-in user is: "eEvh1WUF5nb5eeUksUQb3Ph0kOU2" (Mandi Wise).
