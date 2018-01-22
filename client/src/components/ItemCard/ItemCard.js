@@ -52,7 +52,8 @@ const ItemCard = ({ item, owner }) => (
 );
 
 ItemCard.propTypes = {
-  item: PropTypes.object.isRequired
+  item: PropTypes.object.isRequired,
+  owner: PropTypes.string.isRequired
 };
 
 export default ItemCard;

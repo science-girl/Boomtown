@@ -1,4 +1,4 @@
-@media screen and (max-width: 699px) and (min-width: 520px)
+@media screen and (max-width: 699px) and (min-width: 520px){
 .headerButtonWrapper {
     -ms-flex-align: center;
     align-items: center;
@@ -7,4 +7,4 @@
     margin-left: 1rem;
     padding: 6px 0;
     width: 100%;
-}
+}}

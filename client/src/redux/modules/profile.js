@@ -63,7 +63,6 @@ export const fetchItemsAndUsers = props => dispatch => {
         const gravatarUrl = GRAVATAR_URL.concat(md5(users[index].email)).concat(
           GRAVATAR_IMG_SIZE
         );
-        console.log(gravatarUrl);
 
         // set user data in a hashmap
         userHashTable[users[index].id] = {
