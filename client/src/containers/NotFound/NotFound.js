@@ -1,5 +1,6 @@
 import React from "react";
 import image from "../../images/grumpy.svg";
+import "./styles.css";
 
 const NotFound = () => (
   <div className="notFoundWrapper">

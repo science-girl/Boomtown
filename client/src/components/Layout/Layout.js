@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Route, Link, withRouter } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 import Header from "../HeaderBar";
 import Footer from "../Footer/FooterContainer";
@@ -9,10 +9,23 @@ import "./styles.css";
 const Layout = ({ children }) => (
   <div className="appContentWrapper">
     <div className="appHeader">
-      <Header />
+      <Route
+        exact
+        path="/items"
+        children={props => (props.match ? <Header /> : "")}
+      />
+      <Route
+        exact
+        path="/profile/:userid"
+        children={props => (props.match ? <Header /> : "")}
+      />
     </div>
     <div className="appContent">{children}</div>
-    <Route path="/login" children={props => (props.match ? "" : <Footer />)} />
+    <Route
+      exact
+      path="/login"
+      children={props => (props.match ? "" : <Footer />)}
+    />
   </div>
 );
 
