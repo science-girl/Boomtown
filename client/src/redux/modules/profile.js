@@ -79,13 +79,12 @@ export const fetchItemsAndUsers = props => dispatch => {
         item.itemowner = userHashTable[ownerKey];
         // while viewing a profile other than the logged in user,
         // shows 'unavailable' for lent items not belonging to the logged-in user
-        if (
-          item.borrower !== null &&
-          item !== undefined &&
-          url === LOGGED_IN_USER
-        ) {
+        console.log("url: " + url);
+        console.log("logged: " + LOGGED_IN_USER);
+        console.log(item.borrower);
+        if (!item.available && item !== undefined && url === LOGGED_IN_USER) {
           item.borrower = "Lent to " + userHashTable[item.borrower].fullname;
-        } else {
+        } else if (url !== LOGGED_IN_USER && !item.available) {
           item.borrower = "Unavailable";
         }
         return item;
