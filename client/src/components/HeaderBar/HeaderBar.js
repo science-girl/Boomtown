@@ -1,11 +1,11 @@
-import React from "react";
-import AppBar from "./AppBar";
-import style from "./styles.js";
+import React from 'react';
+import AppBar from './AppBar';
+import style from './styles';
 
 const HeaderBar = () => (
-  <div style={style.header}>
-    <AppBar />
-  </div>
+    <div style={style.header}>
+        <AppBar />
+    </div>
 );
 
 export default HeaderBar;

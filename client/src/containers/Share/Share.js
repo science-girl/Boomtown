@@ -1,7 +1,9 @@
-import React, { Component } from "react";
+import React from 'react';
+import VerticalStepper from '../../components/VerticalStepper/';
 
-export default class Share extends Component {
-  render() {
-    return <div>Share Page :-)</div>;
-  }
-}
+const Share = () => (
+    <div>
+        <VerticalStepper />
+    </div>
+);
+export default Share;
