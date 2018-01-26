@@ -62,6 +62,17 @@ export const fetchItemsAndUsers = () => dispatch => {
                 };
             }
 
+            // need to create an array of tags
+
+            itemList.forEach(item => {
+                const tagArray = [];
+                item.tags.forEach(tag => {
+                    tagArray.push(tag.title);
+                });
+                item.tags = tagArray;
+                console.log(item.tags);
+            });
+
             const combined = itemList.map(item => {
                 const ownerKey = item.itemowner;
                 item.itemowner = userHashTable[ownerKey];
@@ -76,6 +87,7 @@ export const fetchItemsAndUsers = () => dispatch => {
                 }
                 return item;
             });
+            console.log(combined);
             dispatch(getItemsSuccess(combined));
         })
         .catch(error => dispatch(getItemsError(error.message)));

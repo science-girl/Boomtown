@@ -13,8 +13,15 @@ cd client && npm install
 From inside the `client` directory, run:
 
 ```bash
-npm run dev
+## start JSON server
+npm start json-server
+
+From inside the `server` directory, run:
+npm start
 ```
+
+From inside the `client` directory, run:
+npm start
 
 ## Project Summary
 

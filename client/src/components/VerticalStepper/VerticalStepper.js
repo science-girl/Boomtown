@@ -13,7 +13,6 @@ import './styles.css';
  */
 
 // TODOS: only show 'next' button when image has been uploaded
-//
 class VerticalStepper extends React.Component {
     state = {
         finished: false,

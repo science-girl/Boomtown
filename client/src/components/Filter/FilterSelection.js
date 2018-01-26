@@ -8,7 +8,6 @@ import { getItemTags } from '../../redux/modules/items';
 // largely copy and pasted from material-ui
 
 const names = [
-    'Electronics',
     'Household Items',
     'Musical Instruments',
     'Physical Media',
@@ -21,11 +20,6 @@ const names = [
  * `SelectField` can handle multiple selections. It is enabled with the `multiple` property.
  */
 class FilterSelection extends Component {
-    static PropTypes = {
-        items: PropTypes.array.required,
-        dispatch: PropTypes.func.required
-    };
-
     static menuItems(values) {
         return names.map(name => (
             <MenuItem
@@ -73,4 +67,8 @@ const mapStateToProps = state => ({
     error: state.items.error
 });
 
+// FilterSelection.propTypes = {
+//     items: PropTypes.array.required,
+//     dispatch: PropTypes.func.required
+// };
 export default connect(mapStateToProps)(FilterSelection);
