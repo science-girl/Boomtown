@@ -16,7 +16,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import style from './styles';
 
 // TODO: remove dummy data once oath is in place
-const LOGGED_IN_USER = 'eEvh1WUF5nb5eeUksUQb3Ph0kOU2';
+const LOGGED_IN_USER = 'LAi9TYWxgGhbjgHu1Sm6ZvB1tRP2';
 
 // largely copy and pasted code from Material-UI site
 const ItemCard = ({ item, owner }) => (
