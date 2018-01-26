@@ -14,7 +14,7 @@
         }
       ],
       "itemowner": "TyHcYnSocuOg6PmWQivgxerTLcq2",
-      "created": 1497558858,
+      "created": "2017-10-01 16:30:33.595884-07",
       "available": true,
       "borrower": null
     },
@@ -36,7 +36,7 @@
         }
       ],
       "itemowner": "dQg4HT262FYOiuOUIRj1xrXjOva2",
-      "created": 1497546618,
+      "created": "2017-10-01 16:30:33.595884-07",
       "available": false,
       "borrower": "LAi9TYWxgGhbjgHu1Sm6ZvB1tRP2"
     },
@@ -54,7 +54,7 @@
         }
       ],
       "itemowner": "LAi9TYWxgGhbjgHu1Sm6ZvB1tRP2",
-      "created": 1497534618,
+      "created": "2018-10-01 16:30:33.595884-07",
       "available": true,
       "borrower": null
     },
@@ -72,7 +72,7 @@
         }
       ],
       "itemowner": "dQg4HT262FYOiuOUIRj1xrXjOva2",
-      "created": 1497504600,
+      "created": "2019-10-01 16:30:33.595884-07",
       "available": true,
       "borrower": null
     },
@@ -90,7 +90,7 @@
         }
       ],
       "itemowner": "TyHcYnSocuOg6PmWQivgxerTLcq2",
-      "created": 1497489120,
+      "created": "2017-11-01 16:30:33.595884-07",
       "available": false,
       "borrower": "dQg4HT262FYOiuOUIRj1xrXjOva2"
     },
@@ -108,7 +108,7 @@
         }
       ],
       "itemowner": "TyHcYnSocuOg6PmWQivgxerTLcq2",
-      "created": 1497466800,
+      "created": "2017-12-01 16:30:33.595884-07",
       "available": true,
       "borrower": null
     },
@@ -126,7 +126,7 @@
         }
       ],
       "itemowner": "LAi9TYWxgGhbjgHu1Sm6ZvB1tRP2",
-      "created": 1497433740,
+      "created": "2017-10-01 16:30:33.595884-07",
       "available": true,
       "borrower": null
     },
@@ -148,7 +148,7 @@
         }
       ],
       "itemowner": "TyHcYnSocuOg6PmWQivgxerTLcq2",
-      "created": 1497406380,
+      "created": "2017-09-01 16:30:33.595884-07",
       "available": false,
       "borrower": "LAi9TYWxgGhbjgHu1Sm6ZvB1tRP2"
     },
@@ -166,7 +166,7 @@
         }
       ],
       "itemowner": "LAi9TYWxgGhbjgHu1Sm6ZvB1tRP2",
-      "created": 1497398220,
+      "created": "2018-01-01 16:30:33.595884-07",
       "available": false,
       "borrower": "TyHcYnSocuOg6PmWQivgxerTLcq2"
     },
@@ -184,7 +184,7 @@
         }
       ],
       "itemowner": "TyHcYnSocuOg6PmWQivgxerTLcq2",
-      "created": 1497377580,
+      "created": "2017-10-01 16:30:33.595884-07",
       "available": true,
       "borrower": null
     }
