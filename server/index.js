@@ -1,4 +1,6 @@
 const express = require("express");
+const cors = require("cors");
+
 const bodyParser = require("body-parser");
 const { graphqlExpress, graphiqlExpress } = require("apollo-server-express");
 const schema = require("./api/schema");
@@ -6,6 +8,7 @@ const schema = require("./api/schema");
 const GQL_PORT = process.env.PORT; // this is defined in package.json
 
 const app = express();
+app.use("*", cors());
 
 // 2 ENDPOINTS: /graphql and /graphipl
 
