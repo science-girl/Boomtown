@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import moment from 'moment';
+// import moment from 'moment';
 
 import {
     Card,
@@ -10,7 +10,9 @@ import {
     CardTitle,
     CardText
 } from 'material-ui/Card';
-import style from './styles';
+import './styles.css';
+
+import image from '../../images/item-placeholder.jpg';
 
 // TODO: remove dummy data once oath is in place
 // const LOGGED_IN_USER = 'eEvh1WUF5nb5eeUksUQb3Ph0kOU2';
@@ -19,7 +21,7 @@ import style from './styles';
 const ShareItemCard = ({ owner }) => (
     <Card>
         <CardMedia>
-            <img src="" alt="" />
+            <img src={image} width="200" alt="" />
         </CardMedia>
         <Link to={`/profile/${owner}`}>
             <CardHeader

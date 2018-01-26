@@ -74,6 +74,15 @@ export const fetchItemsAndUsers = props => dispatch => {
                 };
             }
 
+            // need to create an array of tags
+            itemList.forEach(item => {
+                const tagArray = [];
+                item.tags.forEach(tag => {
+                    tagArray.push(tag.title);
+                });
+                item.tags = tagArray;
+            });
+
             const combined = itemList.map(item => {
                 const ownerKey = item.itemowner;
                 item.itemowner = userHashTable[ownerKey];

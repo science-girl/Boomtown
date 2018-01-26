@@ -3,14 +3,6 @@ import { Step, Stepper, StepLabel, StepContent } from 'material-ui/Stepper';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import './styles.css';
-/**
- * Vertical steppers are designed for narrow screen sizes. They are ideal for mobile.
- *
- * To use the vertical stepper with the contained content as seen in spec examples,
- * you must use the `<StepContent>` component inside the `<Step>`.
- *
- * <small>(The vertical stepper can also be used without `<StepContent>` to display a basic stepper.)</small>
- */
 
 // TODOS: only show 'next' button when image has been uploaded
 class VerticalStepper extends React.Component {
@@ -88,9 +80,9 @@ class VerticalStepper extends React.Component {
                         </StepContent>
                     </Step>
                     <Step>
-                        <StepLabel>Create an ad group</StepLabel>
+                        <StepLabel>Add a Title & Description</StepLabel>
                         <StepContent>
-                            <p>
+                            <p className="step-explanation">
                                 An ad group contains one or more ads which
                                 target a shared set of keywords.
                             </p>
@@ -98,37 +90,24 @@ class VerticalStepper extends React.Component {
                         </StepContent>
                     </Step>
                     <Step>
-                        <StepLabel>Create an ad</StepLabel>
+                        <StepLabel>Categorize Your Item</StepLabel>
                         <StepContent>
-                            <p>
-                                Try out different ad text to see what brings in
-                                the most customers, and learn how to enhance
-                                your ads using features like ad extensions. If
-                                you run into any problems with your ads, find
-                                out how to tell if they're running and how to
-                                resolve approval issues.
+                            <p className="step-explanation">
+                                Try out different ad text to see what brings
                             </p>
                             {this.renderStepActions(2)}
                         </StepContent>
                     </Step>
+                    <Step>
+                        <StepLabel>Confirm Things</StepLabel>
+                        <StepContent>
+                            <p className="step-explanation">
+                                Try out different ad text to see what brings
+                            </p>
+                            {this.renderStepActions(3)}
+                        </StepContent>
+                    </Step>
                 </Stepper>
-                {finished && (
-                    <p style={{ margin: '20px 0', textAlign: 'center' }}>
-                        <a
-                            href="#"
-                            onClick={event => {
-                                event.preventDefault();
-                                this.setState({
-                                    stepIndex: 0,
-                                    finished: false
-                                });
-                            }}
-                        >
-                            Click here
-                        </a>{' '}
-                        to reset the example.
-                    </p>
-                )}
             </div>
         );
     }
