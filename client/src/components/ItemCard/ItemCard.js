@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import md5 from 'md5';
+
 import moment from 'moment';
 
 import {
@@ -17,6 +19,7 @@ import style from './styles';
 
 // TODO: remove dummy data once oath is in place
 const LOGGED_IN_USER = 'LAi9TYWxgGhbjgHu1Sm6ZvB1tRP2';
+const GRAVATAR_URL = 'http://gravatar.com/avatar/';
 
 // largely copy and pasted code from Material-UI site
 const ItemCard = ({ item, owner }) => (
@@ -27,17 +30,22 @@ const ItemCard = ({ item, owner }) => (
         {item.borrower !== null && (
             <CardMedia
                 overlayContentStyle={style.CardText}
-                overlay={<CardTitle subtitle={item.borrower} />}
+                overlay={
+                    <CardTitle subtitle={`Lent to ${item.borrower.fullname}`} />
+                }
             />
         )}
         <Link to={`/profile/${owner}`}>
             <CardHeader
                 title={item.itemowner.fullname}
                 subtitle={moment(item.created).fromNow()}
-                avatar={item.itemowner.gravatarurl}
+                avatar={GRAVATAR_URL + md5(`${item.itemowner.email}`)}
             />
         </Link>
-        <CardTitle title={item.title} subtitle={`${item.tags}`} />
+        <CardTitle
+            title={item.title}
+            subtitle={item.tags.map(tag => `${tag.title}`).join()}
+        />
         <CardText>{item.description}</CardText>
         {/* Only show the 'Borrow' button when not on the logged in user's profile page
     Only show the 'Borrow' button when the item hasn't been loaned */}

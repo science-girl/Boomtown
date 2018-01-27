@@ -111,6 +111,8 @@ export const fetchItemsAndUsers = props => dispatch => {
                 numSharedItems: combined.length
             };
 
+            console.log(combined);
+
             dispatch(getProfileSuccess(combined, profileObj));
         })
         .catch(error => dispatch(getProfileError(error.message)));
