@@ -1,73 +1,54 @@
+const queryFetch = require("./jsonServer");
 // Resolvers help us pull in the database
-const fetch = require("node-fetch");
-const ITEMS_URL = "http://localhost:3001/items";
-const USERS_URL = "http://localhost:3001/users";
-
-// // temp hard coding
-// const Items = [
-//   {
-//     id: "1",
-//     title: "Cool Item",
-//     imageurl: "www.google.com",
-//     description: "Ok.",
-//     available: true,
-//     borrowerid: "1",
-//     ownerid: "2"
-//   },
-//   {
-//     id: "2",
-//     title: "Another Cool Item",
-//     imageurl: "www.google.com",
-//     description: "Nice.",
-//     available: false,
-//     borrowerid: "2",
-//     ownerid: "1"
-//   }
-// ];
-// const Users = [
-//   {
-//     id: "1",
-//     email: "mack@mack.mac",
-//     fullname: "Mac Demarco",
-//     imageurl: "www.google.com"
-//   },
-//   {
-//     id: "2",
-//     email: "mandi@mandi.com",
-//     fullname: "Mandi Wise",
-//     imageurl: "www.google.com"
-//   }
-// ];
+// const fetch = require("node-fetch");
+// const ITEMS_URL = "http://localhost:3001/items";
+// const USERS_URL = "http://localhost:3001/users";
 
 const resolveFunctions = {
-  // RESOLVERS GO HERE
   Query: {
     items() {
-      return fetch(ITEMS_URL).then(r => r.json());
+      return queryFetch.fetchItems();
     },
     user(root, { id }) {
-      return fetch(`${USERS_URL}/${id}`).then(r => r.json());
+      return queryFetch.fetchUsers(id);
     },
     users() {
-      return fetch(USERS_URL).then(r => r.json());
+      return queryFetch.fetchUsers();
     },
-    //TEST DATA: query {
-    //   item(id:2){
-    //     title
-    //   }
-    // }
+
     item(root, { id }) {
-      return fetch(`${ITEMS_URL}/${id}`).then(r => r.json());
+      return queryFetch.fetchItems(id);
+    }
+  },
+  Mutation: {
+    // Destructuring an inner object; nested destructuring
+    // addItem(root, {newItem: {title}}){
+    //   return {title};
+    // }
+    addItem(root, payload) {
+      //TODO: save this new item to the db
+      //TODO: must return new item thanks to our mutation schema
+      return {
+        title: payload.newItem.title,
+        description: payload.newItem.description
+      };
+    },
+    updateItem(root, payload) {
+      //console.log(payload.newItem.borrower);
+      return {
+        id: payload.newItem.id,
+        //borrower: payload.newItem.borrower,
+        title: payload.newItem.title
+      };
     }
   },
   Item: {
     itemowner(item) {
-      //return Users.find(user => user.id === item.itemowner);
-      return fetch(`${USERS_URL}/${item.itemowner}`).then(r => r.json());
+      return queryFetch.fetchUsers(item.itemowner);
     },
     borrower(item) {
       if (item.borrower) {
-        return fetch(`${USERS_URL}/${item.borrower}`).then(r => r.json());
+        return queryFetch.fetchUsers(item.borrower);
       } else return null;
     },
     tags(item) {
@@ -76,7 +57,10 @@ const resolveFunctions = {
   },
   User: {
     shareditems(user) {
-      return fetch(`${ITEMS_URL}/?itemowner=${user.id}`).then(r => r.json());
+      return queryFetch.fetchQueryItems("itemowner", user.id);
+    },
+    borroweditems(user) {
+      return queryFetch.fetchQueryItems("borrower", user.id);
     }
   }
 };
