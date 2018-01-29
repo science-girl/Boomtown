@@ -1,12 +1,11 @@
 const queryFetch = require("./jsonServer");
-// Resolvers help us pull in the database
-// const fetch = require("node-fetch");
-// const ITEMS_URL = "http://localhost:3001/items";
-// const USERS_URL = "http://localhost:3001/users";
+const loaders = require("./loaders");
+const DataLoader = require("dataloader");
 
 const resolveFunctions = {
   Query: {
     items() {
+      console.log("querying items");
       return queryFetch.fetchItems();
     },
     user(root, { id }) {
@@ -15,9 +14,12 @@ const resolveFunctions = {
     users() {
       return queryFetch.fetchUsers();
     },
-
     item(root, { id }) {
       return queryFetch.fetchItems(id);
+    },
+    itemsByTags(root, { tag }) {
+      console.log(tag);
+      return queryFetch.fetchQueryItems("tag.title", tag);
     }
   },
   Mutation: {
@@ -57,7 +59,10 @@ const resolveFunctions = {
   },
   User: {
     shareditems(user) {
-      return queryFetch.fetchQueryItems("itemowner", user.id);
+      return new DataLoader(ids =>
+        Promise.all(ids.map(id => queryFetch.getUserOwnedItems(id)))
+      ).load(user.id);
+      //return queryFetch.fetchQueryItems("itemowner", user.id);
     },
     borroweditems(user) {
       return queryFetch.fetchQueryItems("borrower", user.id);
