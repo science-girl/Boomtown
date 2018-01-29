@@ -1,11 +1,7 @@
 import React from 'react';
 import './styles.css';
 
-const UserCard = ({
-    bio,
-    fullname,
-    gravatarurl /* , numBorrowed, numShared */
-}) => (
+const UserCard = ({ bio, fullname, gravatarurl, numShared, numBorrowed }) => (
     <div className="white-box">
         <div className="user-card">
             <div className="user-info">
@@ -14,8 +10,8 @@ const UserCard = ({
             </div>
             <div className="user-stats">
                 <div className="borrow-owned">
-                    <span>???</span> <p>Items Shared</p>
-                    <span>???</span> <p>Items Borrowed</p>
+                    <span>{numShared}</span> <p>Items Shared</p>
+                    <span>{numBorrowed}</span> <p>Items Borrowed</p>
                 </div>
                 <div className="user-image">
                     <img src={gravatarurl} alt="Boomtown Sharing is Caring" />

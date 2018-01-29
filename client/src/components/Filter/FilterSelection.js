@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import { connect } from 'react-redux';
@@ -62,7 +62,7 @@ class FilterSelection extends Component {
 // retrieve the state from the store and plug it into props for react
 const mapStateToProps = state => ({
     isLoading: state.items.isLoading,
-    items: state.items.items,
+    // items: state.items.items,
     tags: state.items.tags,
     error: state.items.error
 });

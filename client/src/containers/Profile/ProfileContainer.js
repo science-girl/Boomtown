@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import md5 from 'md5';
 
-// import { fetchItemsAndUsers } from '../../redux/modules/profile';
 import Profile from './Profile';
 import UserCard from '../../components/UserCard';
 import ShareButton from '../../components/ShareButton';
 import Loading from '../../components/Loading';
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 import './styles.css';
 import style from './styles';
 
@@ -20,17 +18,38 @@ const fetchUsers = gql`
             bio
             email
             fullname
+            borroweditems {
+                id
+            }
+            shareditems {
+                id
+                title
+                imageurl
+                description
+                available
+                created
+                tags {
+                    title
+                }
+                borrower {
+                    id
+                    fullname
+                }
+                itemowner {
+                    id
+                    bio
+                    email
+                    fullname
+                }
+            }
         }
     }
 `;
 
 class ProfileContainer extends Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         const { loading, user } = this.props.data;
-        console.log(user);
+
         return loading ? (
             <Loading />
         ) : (
@@ -39,22 +58,24 @@ class ProfileContainer extends Component {
                     bio={user.bio}
                     fullname={user.fullname}
                     gravatarurl={GRAVATAR_URL + md5(`${user.email}`)}
+                    numShared={user.shareditems ? user.shareditems.length : 0}
+                    numBorrowed={
+                        user.borroweditems ? user.borroweditems.length : 0
+                    }
                 />
+                <Profile list={user.shareditems} />
+                <div style={style.FixedButton}>
+                    <ShareButton />
+                </div>
             </div>
         );
     }
 }
-// <UserCard
-//     bio={users.bio}
-//     fullname={users.fullname}
-//     gravatarurl={users.gravatarurl}
-//      numBorrowed={users.numBorrowedItems}
-//     numShared={users.numSharedItems}
-// />
-//  <Profile list={this.props.items} />
-// <div style={style.FixedButton}>
-//     <ShareButton />
-// </div>
+
+ProfileContainer.PropTypes = {
+    loading: PropTypes.bool,
+    items: PropTypes.array
+};
 
 export default graphql(fetchUsers, {
     options: props => ({
@@ -63,11 +84,3 @@ export default graphql(fetchUsers, {
         }
     })
 })(ProfileContainer);
-
-// retrieve the state from the store and plug it into props for react
-// const mapStateToProps = state => ({
-//     isLoading: state.profile.isLoading,
-//     items: state.profile.items,
-//     profile: state.profile.profile,
-//     error: state.profile.error
-// });
