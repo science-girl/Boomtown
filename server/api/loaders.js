@@ -7,19 +7,33 @@ const js = require("./jsonServer");
 // **** 3. Load values from the loader individually
 // after .load() is called once with a given key, the resulting value is cached
 
-//exports.createLoaders = ids => {
-exports = () => {
+function createLoaders() {
   return {
-    userItems: new DataLoader(ids =>
+    sharedItems: new DataLoader(ids =>
       Promise.all(ids.map(id => js.getUserOwnedItems(id)))
+    ),
+    getAllItems: new DataLoader(ids =>
+      Promise.all(ids.map(id => js.getAllItems(id)))
+    ),
+    getUser: new DataLoader(ids =>
+      Promise.all(ids.map(id => js.fetchUsers(id)))
+    ),
+    getUsers: new DataLoader(ids =>
+      Promise.all(ids.map(id => js.fetchUsers(id)))
+    ),
+    getItem: new DataLoader(ids =>
+      Promise.all(ids.map(id => js.fetchItems(id)))
+    ),
+    borrowedItems: new DataLoader(ids =>
+      Promise.all(ids.map(id => js.getBorrowedItems(id)))
+    ),
+    itemowners: new DataLoader(ids =>
+      Promise.all(ids.map(id => js.fetchUsers(id)))
+    ),
+    borrower: new DataLoader(ids =>
+      Promise.all(ids.map(id => js.fetchUsers(id)))
     )
   };
-};
+}
 
-// exports.createLoaders = () => {
-//   return {
-//     userItems: new DataLoader(ids =>
-//       Promise.all(ids.map(id => js.getUserOwnedItems(id)))
-//     )
-//   };
-// };
+module.exports = createLoaders;

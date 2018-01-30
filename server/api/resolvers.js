@@ -1,25 +1,16 @@
-const queryFetch = require("./jsonServer");
-const loaders = require("./loaders");
-const DataLoader = require("dataloader");
-
 const resolveFunctions = {
   Query: {
-    items() {
-      console.log("querying items");
-      return queryFetch.fetchItems();
+    items(root, args, context) {
+      return context.loaders.getAllItems.load(args);
     },
-    user(root, { id }) {
-      return queryFetch.fetchUsers(id);
+    user(root, { id }, context) {
+      return context.loaders.getUser.load(id);
     },
-    users() {
-      return queryFetch.fetchUsers();
+    users(root, { arg }, context) {
+      return context.loaders.getUsers.load(arg);
     },
-    item(root, { id }) {
-      return queryFetch.fetchItems(id);
-    },
-    itemsByTags(root, { tag }) {
-      console.log(tag);
-      return queryFetch.fetchQueryItems("tag.title", tag);
+    item(root, { id }, context) {
+      return context.loaders.getItem.load(id);
     }
   },
   Mutation: {
@@ -45,12 +36,12 @@ const resolveFunctions = {
     }
   },
   Item: {
-    itemowner(item) {
-      return queryFetch.fetchUsers(item.itemowner);
+    itemowner(item, args, context) {
+      return context.loaders.itemowners.load(item.itemowner);
     },
-    borrower(item) {
+    borrower(item, args, context) {
       if (item.borrower) {
-        return queryFetch.fetchUsers(item.borrower);
+        return context.loaders.borrower.load(item.borrower);
       } else return null;
     },
     tags(item) {
@@ -58,14 +49,11 @@ const resolveFunctions = {
     }
   },
   User: {
-    shareditems(user) {
-      return new DataLoader(ids =>
-        Promise.all(ids.map(id => queryFetch.getUserOwnedItems(id)))
-      ).load(user.id);
-      //return queryFetch.fetchQueryItems("itemowner", user.id);
+    shareditems(user, args, context) {
+      return context.loaders.sharedItems.load(user.id);
     },
-    borroweditems(user) {
-      return queryFetch.fetchQueryItems("borrower", user.id);
+    borroweditems(user, args, context) {
+      return context.loaders.borrowedItems.load(user.id);
     }
   }
 };
