@@ -1,8 +1,4 @@
-const { makeExecutableSchema } = require("graphql-tools");
-const resolvers = require("./resolvers");
-
-const typeDefs = `
-  type Tag{
+module.exports = `type Tag{
     id: ID
     title: String
   }
@@ -53,6 +49,7 @@ const typeDefs = `
   }
   type Query{
     items: [Item]
+    fetchItems: [Item]
     itemsByTags: [Item]
     item(id:ID): Item
     users: [User]
@@ -60,7 +57,3 @@ const typeDefs = `
   }
 
 `;
-module.exports = makeExecutableSchema({
-  typeDefs,
-  resolvers
-});

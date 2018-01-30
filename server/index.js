@@ -1,20 +1,41 @@
+const DataLoader = require("dataloader");
 const express = require("express");
 const cors = require("cors");
+const createLoaders = require("./api/loaders");
 
 const bodyParser = require("body-parser");
 const { graphqlExpress, graphiqlExpress } = require("apollo-server-express");
-const schema = require("./api/schema");
+const { makeExecutableSchema } = require("graphql-tools");
 
-const GQL_PORT = process.env.PORT; // this is defined in package.json
+const typeDefs = require("./api/schema");
+
+const config = require("./config");
+const initResolvers = require("./api/resolvers");
 
 const app = express();
+config(app);
+
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers: initResolvers(app)
+});
+
+// this is used for cross-origin purposes; we will (post-dev) determine a
+// white list for domains that can access our domain for security
 app.use("*", cors());
 
 // 2 ENDPOINTS: /graphql and /graphipl
 
 // Where we will send all of our GraphQL requests
 // any access to /graphql, parse into JSON and pass to graphqlExpress
-app.use("/graphql", bodyParser.json(), graphqlExpress({ schema }));
+app.use(
+  "/graphql",
+  bodyParser.json(),
+  graphqlExpress({
+    schema,
+    context: { loaders: createLoaders(app) }
+  })
+);
 
 // A route for accessing the GraphiQL tool
 // passes to Middleware
@@ -24,6 +45,8 @@ app.use(
     endpointURL: "/graphql"
   })
 );
-app.listen(GQL_PORT, () =>
-  console.log(`GraphQL is now running on http://localhost:${GQL_PORT}/graphql`)
+app.listen(app.get("PORT"), () =>
+  console.log(
+    `GraphQL is now running on http://localhost:${app.get("PORT")}/graphql`
+  )
 );
