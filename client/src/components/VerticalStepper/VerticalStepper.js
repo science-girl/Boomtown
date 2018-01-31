@@ -2,9 +2,11 @@ import React from 'react';
 import { Step, Stepper, StepLabel, StepContent } from 'material-ui/Stepper';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
+import TextFieldArea from './TextFieldArea';
+import Filter from '../Filter/FilterSelection';
 import './styles.css';
 
-// TODOS: only show 'next' button when image has been uploaded
+// TODO: only show 'next' button when image has been uploaded
 class VerticalStepper extends React.Component {
     state = {
         finished: false,
@@ -32,23 +34,36 @@ class VerticalStepper extends React.Component {
         return (
             <div style={{ margin: '12px 0' }}>
                 <div className="floatL">
-                    <RaisedButton
-                        label={stepIndex === 0 ? 'Select an Image' : 'Next'}
-                        disableTouchRipple
-                        disableFocusRipple
-                        onClick={this.handleNext}
-                        style={{ marginRight: 12 }}
-                    />
+                    {step < 3 && (
+                        <RaisedButton
+                            label={stepIndex === 0 ? 'Select an Image' : 'Next'}
+                            disableTouchRipple
+                            disableFocusRipple
+                            onClick={this.handleNext}
+                            style={{ marginRight: 12 }}
+                        />
+                    )}
                 </div>
                 <div className="clear" />
                 <div>
-                    <RaisedButton
-                        label={stepIndex === 2 ? 'Finish' : 'Next'}
-                        disableTouchRipple
-                        disableFocusRipple
-                        onClick={this.handleNext}
-                        style={{ marginRight: 12 }}
-                    />
+                    {step === 0 && (
+                        <RaisedButton
+                            label={'Next'}
+                            disableTouchRipple
+                            disableFocusRipple
+                            onClick={this.handleNext}
+                            style={{ marginRight: 12 }}
+                        />
+                    )}
+                    {step === 3 && (
+                        <RaisedButton
+                            label={'Finish'}
+                            disableTouchRipple
+                            disableFocusRipple
+                            onClick={this.handleNext}
+                            style={{ marginRight: 12 }}
+                        />
+                    )}
                 </div>
                 {step > 0 && (
                     <FlatButton
@@ -70,7 +85,7 @@ class VerticalStepper extends React.Component {
             <div style={{ maxWidth: 380, maxHeight: 400, margin: 'auto' }}>
                 <Stepper activeStep={stepIndex} orientation="vertical">
                     <Step>
-                        <StepLabel>Select campaign settings</StepLabel>
+                        <StepLabel>Add an Image</StepLabel>
                         <StepContent>
                             <p className="step-explanation">
                                 We live in a visual culture. Upload a picture
@@ -86,6 +101,7 @@ class VerticalStepper extends React.Component {
                                 An ad group contains one or more ads which
                                 target a shared set of keywords.
                             </p>
+                            <TextFieldArea />
                             {this.renderStepActions(1)}
                         </StepContent>
                     </Step>
@@ -95,6 +111,7 @@ class VerticalStepper extends React.Component {
                             <p className="step-explanation">
                                 Try out different ad text to see what brings
                             </p>
+                            <Filter />
                             {this.renderStepActions(2)}
                         </StepContent>
                     </Step>

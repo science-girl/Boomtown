@@ -1,20 +1,55 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import Login from "./Login";
+import { firebaseAuth } from '../../config/firebaseConfig';
+import Login from './Login';
 
 class LoginContainer extends Component {
-  static propTypes = {
-    login: PropTypes.func.isRequired
-  };
+    static propTypes = {
+        // login: PropTypes.func.isRequired
+    };
 
-  login = () => {
-    console.log("You clicked the login button.");
-  };
+    constructor() {
+        super();
+        this.state = {
+            emailInputValue: '',
+            passwordInputValue: ''
+        };
+    }
+    handleUpdateEmail = ({ target: { value } }) => {
+        this.setState({ emailInputValue: value });
+    };
+    handleUpdatePassword = ({ target: { value } }) => {
+        this.setState({ passwordInputValue: value });
+    };
 
-  render() {
-    return <Login login={this.login} />;
-  }
+    login = () => {
+        if (this.state.emailInputValue && this.state.passwordInputValue) {
+            firebaseAuth
+                .signInWithEmailAndPassword(
+                    this.state.emailInputValue,
+                    this.state.passwordInputValue
+                )
+                .then(args => {
+                    console.log(`success: ${args}`);
+                    this.props.history.push('/items');
+                })
+                .catch(error => {
+                    console.log('error', error);
+                });
+        }
+    };
+    render() {
+        return (
+            <Login
+                login={this.login}
+                emailInputValue={this.state.emailInputValue}
+                passwordInputValue={this.state.passwordInputValue}
+                handleUpdateEmail={this.handleUpdateEmail}
+                handleUpdatePassword={this.handleUpdatePassword}
+            />
+        );
+    }
 }
 
 export default LoginContainer;

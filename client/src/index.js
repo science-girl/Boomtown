@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ApolloProvider } from 'react-apollo';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -24,12 +23,12 @@ const Boomtown = () => (
         <ApolloProvider client={client}>
             <Provider store={store}>
                 <Router>
-                    {/* add history here history={history} in Router */}
+                    {/* TODO add history here history={history} in Router */}
                     <div>
                         <Layout>
                             <Switch>
                                 <Route exact path="/login" component={Login} />
-                                <Route exact path="/" component={Items} />
+                                <Route exact path="/" component={Login} />
                                 <Route exact path="/items" component={Items} />
                                 <Route exact path="/share" component={Share} />
                                 <Route

@@ -7,7 +7,7 @@ export default class ShareContainer extends Component {
     render() {
         return (
             <div className="share-wrapper">
-                <div>
+                <div className="share-item-card-wrapper">
                     <ShareItemCard owner={'LAi9TYWxgGhbjgHu1Sm6ZvB1tRP2'} />
                 </div>
                 <div>

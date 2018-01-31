@@ -61,6 +61,11 @@ class ItemsContainer extends Component {
 
     render() {
         const { loading, items } = this.props.data;
+        console.log(items);
+        if (this.props.data.error) {
+            // console.log(this.props.data.error);
+            return <div>An unexpected error occurred</div>;
+        }
 
         return loading ? (
             <Loading />
