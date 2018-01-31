@@ -1,4 +1,9 @@
-module.exports = app => {
+// TODO: tags and items are the only thing to DataLoader
+// UN Data Load the others and get directly from jsonResource
+module.exports = ({
+  postgresResource: { getItem },
+  js: { getUserOwnedItems, fetchUsers, getTags }
+}) => {
   return {
     Query: {
       items(root, args, context) {
@@ -11,7 +16,7 @@ module.exports = app => {
         return context.loaders.getUsers.load(arg);
       },
       item(root, { id }, context) {
-        return context.loaders.getItem.load(id);
+        return getItem(id);
       }
     },
     Mutation: {
@@ -37,24 +42,26 @@ module.exports = app => {
       }
     },
     Item: {
-      itemowner(item, args, context) {
-        return context.loaders.itemowners.load(item.itemowner);
+      itemowner(item) {
+        console.log(item);
+        return fetchUsers(item.itemowner);
       },
-      borrower(item, args, context) {
+      borrower(item) {
         if (item.borrower) {
-          return context.loaders.borrower.load(item.borrower);
+          return fetchUsers(item.borrower);
         } else return null;
       },
-      tags(item) {
-        return item.tags;
+      tags({ id }, args, context) {
+        console.log("tag item id: " + id);
+        return context.loaders.getTags.load(id);
       }
     },
     User: {
-      shareditems(user, args, context) {
-        return context.loaders.sharedItems.load(user.id);
+      shareditems(user) {
+        return getUserOwnedItems(user.id);
       },
-      borroweditems(user, args, context) {
-        return context.loaders.borrowedItems.load(user.id);
+      borroweditems(user) {
+        return getBorrowedItems(user.id);
       }
     }
   };

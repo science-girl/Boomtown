@@ -1,7 +1,5 @@
 // Resolvers help us pull in the database
 const fetch = require("node-fetch");
-// const ITEMS_URL = "http://localhost:3001/items";
-// const USERS_URL = "http://localhost:3001/users";
 
 // @params id is the value to query
 // @return the items matching the query constructed

@@ -1,5 +1,4 @@
 const DataLoader = require("dataloader");
-const js = require("./jsonServer");
 
 // **** 1. Create a DataLoader instance to create a unique cache. ****
 // **** 2. Create batch loading functions that accepts an array of keys
@@ -7,36 +6,31 @@ const js = require("./jsonServer");
 // **** 3. Load values from the loader individually
 // after .load() is called once with a given key, the resulting value is cached
 
-function createLoaders(app) {
-  const ITEMS_URL = `http://localhost:${app.get("JSON_PORT")}/items`;
-  const USERS_URL = `http://localhost:${app.get("JSON_PORT")}/users`;
-
+//function createLoaders(app) {
+module.exports = ({
+  // destructure so we can just say getUserOwneditems
+  js: { getUserOwnedItems, fetchUsers, fetchItems, getBorrowedItems },
+  postgresResource: { getAllItems, getTags }
+}) => {
   return {
+    getTags: new DataLoader(ids => Promise.all(ids.map(id => getTags(id)))),
     sharedItems: new DataLoader(ids =>
-      Promise.all(ids.map(id => js.getUserOwnedItems(id, ITEMS_URL)))
+      Promise.all(ids.map(id => getUserOwnedItems(id)))
     ),
     getAllItems: new DataLoader(ids =>
-      Promise.all(ids.map(id => js.getAllItems(id, ITEMS_URL)))
+      Promise.all(ids.map(id => getAllItems(id)))
     ),
-    getUser: new DataLoader(ids =>
-      Promise.all(ids.map(id => js.fetchUsers(id, USERS_URL)))
-    ),
-    getUsers: new DataLoader(ids =>
-      Promise.all(ids.map(id => js.fetchUsers(id, USERS_URL)))
-    ),
-    getItem: new DataLoader(ids =>
-      Promise.all(ids.map(id => js.fetchItems(id, ITEMS_URL)))
-    ),
+    getUser: new DataLoader(ids => Promise.all(ids.map(id => fetchUsers(id)))),
+    getUsers: new DataLoader(ids => Promise.all(ids.map(id => fetchUsers(id)))),
+    getItem: new DataLoader(ids => Promise.all(ids.map(id => fetchItems(id)))),
     borrowedItems: new DataLoader(ids =>
-      Promise.all(ids.map(id => js.getBorrowedItems(id, ITEMS_URL)))
+      Promise.all(ids.map(id => getBorrowedItems(id)))
     ),
     itemowners: new DataLoader(ids =>
-      Promise.all(ids.map(id => js.fetchUsers(id, USERS_URL)))
+      Promise.all(ids.map(id => fetchUsers(id)))
     ),
-    borrower: new DataLoader(ids =>
-      Promise.all(ids.map(id => js.fetchUsers(id, USERS_URL)))
-    )
+    borrower: new DataLoader(ids => Promise.all(ids.map(id => fetchUsers(id))))
   };
-}
+};
 
-module.exports = createLoaders;
+//module.exports = createLoaders;
