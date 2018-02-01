@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { firebaseAuth } from '../../config/firebaseConfig';
 import Login from './Login';
 
 class LoginContainer extends Component {
     static propTypes = {
-        // login: PropTypes.func.isRequired
+        // login: propTypes.func.isRequired
     };
 
     constructor() {
         super();
         this.state = {
             emailInputValue: '',
-            passwordInputValue: ''
+            passwordInputValue: '',
+            loginError: { message: '' }
         };
     }
     handleUpdateEmail = ({ target: { value } }) => {
@@ -30,26 +32,35 @@ class LoginContainer extends Component {
                     this.state.emailInputValue,
                     this.state.passwordInputValue
                 )
-                .then(args => {
-                    console.log(`success: ${args}`);
-                    this.props.history.push('/items');
-                })
                 .catch(error => {
+                    this.setState({ loginError: error });
                     console.log('error', error);
                 });
         }
     };
     render() {
-        return (
+        const { from } = this.props.location.state || {
+            from: { pathname: '/items' }
+        };
+        console.log(from);
+        console.log(`authenticated : ${this.props.authenticated}`);
+        return !this.props.authenticated ? (
             <Login
                 login={this.login}
                 emailInputValue={this.state.emailInputValue}
                 passwordInputValue={this.state.passwordInputValue}
                 handleUpdateEmail={this.handleUpdateEmail}
                 handleUpdatePassword={this.handleUpdatePassword}
+                loginError={this.state.loginError}
             />
+        ) : (
+            <Redirect to={from} />
         );
     }
 }
 
-export default LoginContainer;
+const mapStateToProps = state => ({
+    authenticated: state.auth.authenticated,
+    userLoading: state.auth.userLoading
+});
+export default connect(mapStateToProps)(LoginContainer);

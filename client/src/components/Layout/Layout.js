@@ -1,38 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import Header from '../HeaderBar';
+
 import Footer from '../Footer';
 import './styles.css';
 
-const Layout = ({ children }) => (
-    <div className="appContentWrapper">
-        <div className="appHeader">
-            <Route
-                exact
-                path="/items"
-                component={props => (props.match ? <Header /> : '')}
-            />
-            <Route
-                exact
-                path="/profile/:userid"
-                component={props => (props.match ? <Header /> : '')}
-            />
-            <Route
-                exact
-                path="/share"
-                component={props => (props.match ? <Header /> : '')}
-            />
+const Layout = ({ children, userLoading, authenticated }) =>
+    (userLoading ? (
+        <div>"Loading..."</div>
+    ) : (
+        <div className="appContentWrapper">
+            <div className="appHeader">{authenticated && <Header />}</div>
+
+            <div className="appContent">{children}</div>
+            <div>{authenticated && <Footer />}</div>
         </div>
-        <div className="appContent">{children}</div>
-        <Route
-            exact
-            path="/login"
-            component={props => (props.match ? '' : <Footer />)}
-        />
-    </div>
-);
+    ));
 
 Layout.defaultProps = {
     children: null
@@ -42,4 +28,9 @@ Layout.propTypes = {
     children: PropTypes.node
 };
 
-export default Layout;
+const mapStateToProps = state => ({
+    userLoading: state.auth.userLoading,
+    authenticated: state.auth.authenticated
+});
+
+export default withRouter(connect(mapStateToProps)(Layout));

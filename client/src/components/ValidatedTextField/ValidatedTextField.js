@@ -18,8 +18,9 @@ const styles = {
     }
 };
 
-const ValidatedTextField = ({ label, handleChange, value }) => (
+const ValidatedTextField = ({ label, handleChange, value, type }) => (
     <TextField
+        type={type}
         style={styles.fieldStyle}
         hintText={label}
         floatingLabelText={label}

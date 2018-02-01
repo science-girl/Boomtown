@@ -3,6 +3,8 @@ import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
 import { Route, Link, withRouter } from 'react-router-dom';
+import { firebaseAuth } from '../../config/firebaseConfig';
+
 import FilterContainer from '../Filter';
 
 import image from '../../images/boomtown-logo.svg';
@@ -32,13 +34,13 @@ const AppsBar = ({ history }) => (
         iconElementRight={
             <div className="headerButtonWrapper">
                 <div>
-                    <Link to={`/profile/${LOGGED_IN_USER}`}>
+                    <Link to={`/profile/${firebaseAuth.currentUser.uid}`}>
                         <RaisedButton label="My Profile" primary />
                     </Link>{' '}
                     <RaisedButton
                         label="Logout"
                         secondary
-                        onClick={() => history.push('/login')}
+                        onClick={() => firebaseAuth.signOut()}
                     />
                 </div>
             </div>

@@ -1,12 +1,14 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ApolloProvider } from 'react-apollo';
+import { firebaseAuth } from './config/firebaseConfig';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import registerServiceWorker from './registerServiceWorker';
 import store from './redux/store';
 import client from './config/apolloClient';
+import { updateAuthState, userLoading } from './redux/modules/auth';
 
 import './index.css';
 import muiTheme from './config/theme';
@@ -17,6 +19,25 @@ import Items from './containers/Items';
 import NotFound from './containers/NotFound';
 import Profile from './containers/Profile';
 import Share from './containers/Share';
+import PrivateRoute from './components/ValidatedTextField/PrivateRoute';
+
+let gotProfile = false;
+store.subscribe(() => {
+    const values = store.getState();
+    if (values.authenticated !== 'LOADING_USER' && !gotProfile) {
+        gotProfile = true;
+        store.dispatch(userLoading(false));
+    }
+});
+
+firebaseAuth.onAuthStateChanged(user => {
+    console.log('checking for user...');
+    if (user) {
+        store.dispatch(updateAuthState(user));
+    } else {
+        store.dispatch(updateAuthState(false));
+    }
+});
 
 const Boomtown = () => (
     <MuiThemeProvider muiTheme={muiTheme}>
@@ -27,16 +48,23 @@ const Boomtown = () => (
                     <div>
                         <Layout>
                             <Switch>
-                                <Route exact path="/login" component={Login} />
                                 <Route exact path="/" component={Login} />
-                                <Route exact path="/items" component={Items} />
-                                <Route exact path="/share" component={Share} />
-                                <Route
+                                <PrivateRoute
+                                    exact
+                                    path="/items"
+                                    component={Items}
+                                />
+                                <PrivateRoute
+                                    exact
+                                    path="/share"
+                                    component={Share}
+                                />
+                                <PrivateRoute
                                     exact
                                     path="/profile/:userid"
                                     component={Profile}
                                 />
-                                <Route path="*" component={NotFound} />
+                                <PrivateRoute path="*" component={NotFound} />
                             </Switch>
                         </Layout>
                     </div>

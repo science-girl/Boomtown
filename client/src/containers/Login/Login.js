@@ -16,7 +16,8 @@ const Login = ({
     handleUpdateEmail,
     handleUpdatePassword,
     emailInputValue,
-    passwordInputValue
+    passwordInputValue,
+    loginError
 }) => (
     <div className="page login">
         <div className="logo">
@@ -48,6 +49,7 @@ const Login = ({
                         <div>
                             <ValidatedTextField
                                 label="Password"
+                                type="password"
                                 handleChange={handleUpdatePassword}
                                 value={passwordInputValue}
                             />
@@ -62,6 +64,7 @@ const Login = ({
                             Enter
                         </RaisedButton>
                     </form>
+                    <div className="loginFormError">{loginError.message}</div>
                 </div>
             </Paper>
         </div>
