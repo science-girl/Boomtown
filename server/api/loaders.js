@@ -6,22 +6,20 @@ const DataLoader = require("dataloader");
 // **** 3. Load values from the loader individually
 // after .load() is called once with a given key, the resulting value is cached
 
-//function createLoaders(app) {
 module.exports = ({
   // destructure so we can just say getUserOwneditems
-  js: { getUserOwnedItems, fetchUsers, fetchItems, getBorrowedItems },
-  postgresResource: { getAllItems, getTags }
+  postgresResource: { getAllItems, getTags, fetchItems },
+  firebaseResource: { getUser }
 }) => {
   return {
     getTags: new DataLoader(ids => Promise.all(ids.map(id => getTags(id)))),
-    sharedItems: new DataLoader(ids =>
-      Promise.all(ids.map(id => getUserOwnedItems(id)))
-    ),
+    sharedItems: new DataLoader(ids => Promise.all(ids.map(id => getUser(id)))),
     getAllItems: new DataLoader(ids =>
       Promise.all(ids.map(id => getAllItems(id)))
     ),
-    getUser: new DataLoader(ids => Promise.all(ids.map(id => fetchUsers(id)))),
-    getUsers: new DataLoader(ids => Promise.all(ids.map(id => fetchUsers(id)))),
+    getUser: new DataLoader(ids => Promise.all(ids.map(id => getUser(id)))),
+    //getUser: new DataLoader(ids => Promise.all(ids.map(id => fetchUsers(id)))),
+    getUsers: new DataLoader(ids => Promise.all(ids.map(id => getUser(id)))),
     getItem: new DataLoader(ids => Promise.all(ids.map(id => fetchItems(id)))),
     borrowedItems: new DataLoader(ids =>
       Promise.all(ids.map(id => getBorrowedItems(id)))
@@ -29,8 +27,6 @@ module.exports = ({
     itemowners: new DataLoader(ids =>
       Promise.all(ids.map(id => fetchUsers(id)))
     ),
-    borrower: new DataLoader(ids => Promise.all(ids.map(id => fetchUsers(id))))
+    borrower: new DataLoader(ids => Promise.all(ids.map(id => getUser(id))))
   };
 };
-
-//module.exports = createLoaders;

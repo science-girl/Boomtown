@@ -12,43 +12,73 @@ module.exports = async app => {
   await client.connect();
 
   return {
-    // TODO: change to this format
-    // async getItems(){
-    //   try{
-    //   const items = await client.query("SELECT * FROM items");
-    //   return items.rows;
-    // }catch(e){
-    //   return [];
-    // }
-    // }
-
-    getAllItems() {
-      return new Promise((resolve, reject) => {
-        client.query("SELECT * FROM items", (err, res) => {
-          resolve(res.rows);
-        });
-      });
-    },
-    getTags(itemid) {
-      return new Promise((resolve, reject) => {
-        client.query(
-          `SELECT * FROM tags
-          INNER JOIN itemtags ON itemtags.tagid = tags.id
-          WHERE itemtags.itemid=$1`,
-          [itemid],
-          (err, res) => {
-            resolve(res.rows);
-          }
+    async getUserOwnedItems(userid) {
+      try {
+        const items = await client.query(
+          "SELECT * FROM items where itemowner=$1",
+          [userid]
         );
-      });
+        return items.rows;
+      } catch (error) {
+        return [];
+      }
     },
-    getItem: id => {
-      return new Promise((resolve, reject) => {
-        console.log(id);
-        client.query("SELECT * FROM items WHERE id=$1", [id], (err, res) => {
-          resolve(res.rows);
-        });
-      });
+
+    async getBorrowedItems(userid) {
+      try {
+        const borrowedItems = await client.query(
+          "SELECT * FROM items where borrower=$1",
+          [userid]
+        );
+        return borrowedItems.rows;
+      } catch (error) {
+        return [];
+      }
+    },
+
+    async getAllItems() {
+      try {
+        const allItems = await client.query("SELECT * FROM items");
+        return allItems.rows;
+      } catch (error) {
+        return [];
+      }
+    },
+
+    async fetchItems(id) {
+      try {
+        const items = await client.query(
+          "SELECT * FROM items where item.id=$1",
+          [id]
+        );
+        return items.rows;
+      } catch (error) {
+        return [];
+      }
+    },
+
+    async getTags(itemid) {
+      try {
+        const tags = await client.query(
+          `SELECT * FROM tags
+        INNER JOIN itemtags ON itemtags.tagid = tags.id
+        WHERE itemtags.itemid=$1`,
+          [itemid]
+        );
+        return tags.rows;
+      } catch (error) {
+        return [];
+      }
+    },
+    async getItem(id) {
+      try {
+        const items = await client.query("SELECT * FROM items WHERE id=$1", [
+          id
+        ]);
+        return items.rows;
+      } catch (error) {
+        return [];
+      }
     }
   };
 };

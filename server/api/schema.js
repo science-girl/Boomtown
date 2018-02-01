@@ -7,6 +7,7 @@ module.exports = `type Tag{
     email: String
     fullname: String
     bio: String
+    imageurl: String
     shareditems: [Item]
     borroweditems: [Item]
   }

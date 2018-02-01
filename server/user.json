@@ -1,0 +1,21 @@
+{
+  "users": {
+    "9vU0bqi0iCgphwdoQfnEGYdrytN2": {
+      "email": "mandi@redacademy.com",
+      "fullname": "Mandi Wise",
+      "bio": "I am a professional developer and I make stuff on the internet."
+    },
+
+    "HYbUjrVTX0Sp3c8cGUkz4du0GFU2": {
+      "email": "mackenzie@redacademy.com",
+      "fullname": "Mackenzie Kieran",
+      "bio": "I am a professional developer and I make stuff on the internet."
+    },
+
+    "FS99efSmMdQ1IPsLChdgkBdkfli2": {
+      "email": "rose@redacademy.com",
+      "fullname": "Rose Cass",
+      "bio": "I am a professional developer and I make stuff on the internet."
+    }
+  }
+}

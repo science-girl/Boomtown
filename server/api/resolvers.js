@@ -1,8 +1,9 @@
 // TODO: tags and items are the only thing to DataLoader
 // UN Data Load the others and get directly from jsonResource
 module.exports = ({
-  postgresResource: { getItem },
-  js: { getUserOwnedItems, fetchUsers, getTags }
+  postgresResource: { getItem, getUserOwnedItems, getBorrowedItems },
+  //  js: { getUserOwnedItems /*, fetchUsers, getTags*/ },
+  firebaseResource: { fetchUsers, getUser }
 }) => {
   return {
     Query: {
@@ -44,11 +45,11 @@ module.exports = ({
     Item: {
       itemowner(item) {
         console.log(item);
-        return fetchUsers(item.itemowner);
+        return getUser(item.itemowner);
       },
       borrower(item) {
         if (item.borrower) {
-          return fetchUsers(item.borrower);
+          return getUser(item.borrower);
         } else return null;
       },
       tags({ id }, args, context) {

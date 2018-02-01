@@ -12,4 +12,14 @@ module.exports = app => {
   app.set("PORT", process.env.PORT || "3002");
   // Temporary
   app.set("JSON_PORT", "3001");
+
+  // Initialize firebase app
+  app.set("FIREBASE_CONFIG", {
+    apiKey: "AIzaSyB6fGRLoBax-WChiJF-893mOj60k7dklbE",
+    authDomain: "boomtown-e933c.firebaseapp.com",
+    databaseURL: "https://boomtown-e933c.firebaseio.com",
+    projectId: "boomtown-e933c",
+    storageBucket: "boomtown-e933c.appspot.com",
+    messagingSenderId: "858540313336"
+  });
 };
