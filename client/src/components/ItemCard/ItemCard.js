@@ -16,7 +16,6 @@ import moment from 'moment';
 import style from './styles';
 
 import { updateToggleBorrowWindow } from '../../redux/modules/borrow';
-// import Dialog from '../../components/Dialog';
 
 const GRAVATAR_URL = 'http://gravatar.com/avatar/';
 
@@ -55,7 +54,7 @@ const ItemCard = ({ item, owner, loggedInUser, dispatch }) => (
         {/* Only show the 'Borrow' button when not on the logged in user's profile page
     Only show the 'Borrow' button when the item hasn't been loaned */}
         {item.borrower === null &&
-            item.itemowner.id !== { loggedInUser } && (
+            item.itemowner.id !== loggedInUser && (
                 <CardActions>
                     <RaisedButton
                         backgroundColor="#263238"

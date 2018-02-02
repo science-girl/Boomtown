@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Masonry from 'react-masonry-component';
+import { firebaseAuth } from '../../config/firebaseConfig';
 
 import ItemCard from '../../components/ItemCard';
 import style from './styles';
@@ -19,7 +20,11 @@ const Items = ({ list }) => (
         >
             {list.map(item => (
                 <li key={item.id} style={style.MasonryList}>
-                    <ItemCard item={item} owner={item.itemowner.id} />
+                    <ItemCard
+                        item={item}
+                        owner={item.itemowner.id}
+                        loggedInUser={firebaseAuth.currentUser.uid}
+                    />
                 </li>
             ))}
         </Masonry>
