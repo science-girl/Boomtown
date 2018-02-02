@@ -1,8 +1,9 @@
 import React from 'react';
 import { Step, Stepper, StepLabel, StepContent } from 'material-ui/Stepper';
+import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
-import TextFieldArea from './TextFieldArea';
+import ValidatedTextField from '../ValidatedTextField';
 import Filter from '../Filter/FilterSelection';
 import './styles.css';
 
@@ -98,10 +99,16 @@ class VerticalStepper extends React.Component {
                         <StepLabel>Add a Title & Description</StepLabel>
                         <StepContent>
                             <p className="step-explanation">
-                                An ad group contains one or more ads which
-                                target a shared set of keywords.
+                                Tell the world about your item!
                             </p>
-                            <TextFieldArea />
+                            <ValidatedTextField
+                                label="title"
+                                value={this.props.titleText}
+                            />
+                            <ValidatedTextField
+                                label="description"
+                                value={this.props.descriptionText}
+                            />
                             {this.renderStepActions(1)}
                         </StepContent>
                     </Step>
@@ -129,5 +136,8 @@ class VerticalStepper extends React.Component {
         );
     }
 }
-
-export default VerticalStepper;
+const mapStateToProps = state => ({
+    titleText: state.share.titleText,
+    descriptionText: state.share.descriptionText
+});
+export default connect(mapStateToProps)(VerticalStepper);
