@@ -1,10 +1,13 @@
+import gql from 'graphql-tag';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
-import gql from 'graphql-tag';
-import PropTypes from 'prop-types';
+import { firebaseAuth } from '../../config/firebaseConfig';
+
 import Items from './Items';
 import Loading from '../../components/Loading';
+import Dialog from '../../components/Dialog';
 
 const fetchItems = gql`
     query {
@@ -61,7 +64,6 @@ class ItemsContainer extends Component {
 
     render() {
         const { loading, items } = this.props.data;
-        console.log(items);
         if (this.props.data.error) {
             // console.log(this.props.data.error);
             return <div>An unexpected error occurred</div>;
@@ -70,7 +72,16 @@ class ItemsContainer extends Component {
         return loading ? (
             <Loading />
         ) : (
-            <Items list={this.filterTags(items, this.props.tagList)} />
+            <div>
+                {this.props.isOpen && <Dialog />}
+                <Items
+                    list={this.filterTags(
+                        items,
+                        this.props.tagList,
+                        firebaseAuth.currentUser.uid
+                    )}
+                />
+            </div>
         );
     }
 }
@@ -84,7 +95,8 @@ ItemsContainer.PropTypes = {
 const mapStateToProps = state => ({
     isLoading: state.items.isLoading,
     tagList: state.items.tagList,
-    error: state.items.error
+    error: state.items.error,
+    isOpen: state.borrow.isOpen
 });
 
 export default compose(graphql(fetchItems), connect(mapStateToProps))(

@@ -1,11 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-
-import md5 from 'md5';
-
-import moment from 'moment';
-
 import {
     Card,
     CardActions,
@@ -14,15 +8,20 @@ import {
     CardTitle,
     CardText
 } from 'material-ui/Card';
+import React from 'react';
+import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
+import md5 from 'md5';
+import moment from 'moment';
 import style from './styles';
 
-// TODO: remove dummy data once oath is in place
-const LOGGED_IN_USER = 'LAi9TYWxgGhbjgHu1Sm6ZvB1tRP2';
+import { updateToggleBorrowWindow } from '../../redux/modules/borrow';
+// import Dialog from '../../components/Dialog';
+
 const GRAVATAR_URL = 'http://gravatar.com/avatar/';
 
 // largely copy and pasted code from Material-UI site
-const ItemCard = ({ item, owner }) => (
+const ItemCard = ({ item, owner, loggedInUser, dispatch }) => (
     <Card>
         <CardMedia>
             <img src={item.imageurl} alt="" />
@@ -31,7 +30,13 @@ const ItemCard = ({ item, owner }) => (
             <CardMedia
                 overlayContentStyle={style.CardText}
                 overlay={
-                    <CardTitle subtitle={`Lent to ${item.borrower.fullname}`} />
+                    <CardTitle
+                        subtitle={
+                            loggedInUser === `${owner}`
+                                ? `Lent to ${item.borrower.fullname}`
+                                : 'UNAVAILABLE'
+                        }
+                    />
                 }
             />
         )}
@@ -50,12 +55,13 @@ const ItemCard = ({ item, owner }) => (
         {/* Only show the 'Borrow' button when not on the logged in user's profile page
     Only show the 'Borrow' button when the item hasn't been loaned */}
         {item.borrower === null &&
-            item.itemowner.id !== LOGGED_IN_USER && (
+            item.itemowner.id !== { loggedInUser } && (
                 <CardActions>
                     <RaisedButton
                         backgroundColor="#263238"
                         labelColor="white"
                         label="Borrow"
+                        onClick={() => dispatch(updateToggleBorrowWindow(true))}
                     />
                 </CardActions>
             )}
@@ -66,5 +72,10 @@ ItemCard.propTypes = {
     item: PropTypes.object.isRequired,
     owner: PropTypes.string.isRequired
 };
+const mapDispatchToProps = dispatch => ({
+    updateToggleBorrowWindow: onOrOff => {
+        dispatch(updateToggleBorrowWindow(onOrOff));
+    }
+});
 
-export default ItemCard;
+export default connect(mapDispatchToProps)(ItemCard);

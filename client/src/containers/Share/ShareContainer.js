@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Share from './Share';
 import ShareItemCard from '../../components/ShareItemCard';
 import './styles.css';
-import { firebaseAuth } from '../../config/firebaseConfig';
+// import { firebaseAuth } from '../../config/firebaseConfig';
 
 export default class ShareContainer extends Component {
     render() {
