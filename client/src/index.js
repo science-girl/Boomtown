@@ -31,7 +31,6 @@ store.subscribe(() => {
 });
 
 firebaseAuth.onAuthStateChanged(user => {
-    console.log('checking for user...');
     if (user) {
         store.dispatch(updateAuthState(user));
     } else {

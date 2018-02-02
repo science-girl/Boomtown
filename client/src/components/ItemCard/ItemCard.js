@@ -59,9 +59,18 @@ const ItemCard = ({ item, owner, loggedInUser, dispatch }) => (
                 <CardActions>
                     <RaisedButton
                         backgroundColor="#263238"
-                        labelColor="white"
+                        labelColor="#ffffff"
                         label="Borrow"
-                        onClick={() => dispatch(updateToggleBorrowWindow(true))}
+                        onClick={() =>
+                            dispatch(
+                                updateToggleBorrowWindow(
+                                    true,
+                                    item.id,
+                                    item.itemowner.fullname,
+                                    item.title
+                                )
+                            )
+                        }
                     />
                 </CardActions>
             )}
@@ -73,8 +82,8 @@ ItemCard.propTypes = {
     owner: PropTypes.string.isRequired
 };
 const mapDispatchToProps = dispatch => ({
-    updateToggleBorrowWindow: onOrOff => {
-        dispatch(updateToggleBorrowWindow(onOrOff));
+    updateToggleBorrowWindow: (onOrOff, itemId, userName, itemName) => {
+        dispatch(updateToggleBorrowWindow(onOrOff, itemId, userName, itemName));
     }
 });
 

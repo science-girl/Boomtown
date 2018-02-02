@@ -1,27 +1,26 @@
-const TOGGLE_BORROW_DIALOG = 'TOGGLE_BORROW_DIALOG';
-const UPDATE_BORROW_INFO = 'UPDATE_BORROW_INFO';
 const TOGGLE_OPEN_BORROW_WINDOW = 'TOGGLE_OPEN_BORROW_WINDOW';
+const SUBMIT_BORROW_INFO = 'SUBMIT_BORROW_INFO';
 
-export const updateToggleBorrowWindow = isOpen => ({
+export const updateToggleBorrowWindow = (
+    isOpen,
+    itemId,
+    userName,
+    itemName
+) => ({
     type: TOGGLE_OPEN_BORROW_WINDOW,
+    itemId,
+    userName,
+    itemName,
     payload: isOpen
 });
 
-export const updateToggleBorrowDialog = isBorrow => ({
-    type: TOGGLE_BORROW_DIALOG,
-    payload: isBorrow
-});
-
-export const updateBorrowInfo = (name, itemName) => ({
-    type: UPDATE_BORROW_INFO,
-    name,
-    itemName
+export const submitBorrowInfo = () => ({
+    type: SUBMIT_BORROW_INFO
 });
 
 export default function (
     state = {
-        isBorrow: false,
-        name: '',
+        userName: '',
         itemName: '',
         isOpen: false,
         itemId: ''
@@ -29,16 +28,25 @@ export default function (
     action
 ) {
     switch (action.type) {
-    case TOGGLE_BORROW_DIALOG: {
-        console.log(`borrow ${action.payload}`);
-        return { ...state, isBorrow: action.payload };
-    }
-    case UPDATE_BORROW_INFO: {
-        return { ...state, name: action.name, itemName: action.itemName };
+    case SUBMIT_BORROW_INFO: {
+        console.log('Updated Borrower');
+        // TODO: MUTATE DB
+        return {
+            ...state,
+            isOpen: false,
+            userName: '',
+            itemId: '',
+            itemName: ''
+        };
     }
     case TOGGLE_OPEN_BORROW_WINDOW: {
-        console.log(`window toggle${action.payload}`);
-        return { ...state, isOpen: action.payload, isBorrow: false };
+        return {
+            ...state,
+            isOpen: action.payload,
+            userName: action.userName,
+            itemId: action.itemId,
+            itemName: action.itemName
+        };
     }
     default:
         return state;

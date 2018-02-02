@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
@@ -86,9 +86,14 @@ class ItemsContainer extends Component {
     }
 }
 
-ItemsContainer.PropTypes = {
-    loading: PropTypes.bool.isRequired,
-    items: PropTypes.array.isRequired
+ItemsContainer.propTypes = {
+    loading: propTypes.bool.isRequired,
+    items: propTypes.array.isRequired
+};
+
+ItemsContainer.defaultProps = {
+    loading: true,
+    items: []
 };
 
 // retrieve the state from the store and plug it into props for react
