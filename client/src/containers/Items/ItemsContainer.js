@@ -29,6 +29,7 @@ const fetchItems = gql`
             available
             created
             tags {
+                id
                 title
             }
         }
@@ -41,7 +42,7 @@ class ItemsContainer extends Component {
     // @return the item once one of the item tags matches one of the tags in matchTags
     hasTags(item, matchTags) {
         for (let i = 0; i < item.tags.length; i += 1) {
-            if (matchTags.some(tag => tag === item.tags[i].title)) {
+            if (matchTags.some(tag => tag === item.tags[i].id)) {
                 return item;
             }
         }
@@ -65,7 +66,6 @@ class ItemsContainer extends Component {
     render() {
         const { loading, items } = this.props.data;
         if (this.props.data.error) {
-            // console.log(this.props.data.error);
             return <div>An unexpected error occurred</div>;
         }
 

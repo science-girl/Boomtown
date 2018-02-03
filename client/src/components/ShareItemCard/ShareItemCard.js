@@ -11,13 +11,13 @@ import {
     CardText
 } from 'material-ui/Card';
 import './styles.css';
-// import image from '../../images/item-placeholder.jpg';
+import image from '../../images/item-placeholder.jpg';
 
 // largely copy and pasted code from Material-UI site
 const ShareItemCard = ({ owner, titleText, descriptionText, imageUrl }) => (
     <Card>
         <CardMedia>
-            <img src={imageUrl} width="200" alt="" />
+            <img src={image} width="200" alt="" />
         </CardMedia>
         <Link to={`/profile/${owner}`}>
             <CardHeader

@@ -9,11 +9,13 @@ import { connect } from 'react-redux';
 import {
     updateImageField,
     updateTitleField,
-    updateDescriptionField
+    updateDescriptionField,
+    resetFields
 } from '../../redux/modules/share';
 import ValidatedTextField from '../ValidatedTextField';
 import Filter from '../Filter/FilterSelection';
 import './styles.css';
+import { firebaseAuth } from '../../config/firebaseConfig';
 
 // TODO: only show 'next' button when image has been uploaded
 class VerticalStepper extends React.Component {
@@ -40,6 +42,9 @@ class VerticalStepper extends React.Component {
             })
             .then(({ data }) => {
                 console.log('got data', data);
+                // reset title, description, image fields
+                this.props.reset();
+                // direct user to items page
                 this.props.history.push('/items');
             })
             .catch(error => {
@@ -73,7 +78,7 @@ class VerticalStepper extends React.Component {
         }
     };
 
-    renderStepActions(step) {
+    renderStepActions(step, title, description) {
         const { stepIndex } = this.state;
 
         return (
@@ -107,9 +112,9 @@ class VerticalStepper extends React.Component {
                             disableFocusRipple
                             onClick={() =>
                                 this.submitForm(
-                                    'The Unsound',
-                                    'The devil incarnate or white noise? You decide!',
-                                    'HYbUjrVTX0Sp3c8cGUkz4du0GFU2',
+                                    `${title}`,
+                                    `${description}`,
+                                    `${firebaseAuth.currentUser.uid}`,
                                     'https://firebasestorage.googleapis.com/v0/b/boomtown-dfdd8.appspot.com/o/demo-images%2Fmix-tape.jpg?alt=media',
                                     [{ id: 3 }]
                                 )
@@ -182,7 +187,11 @@ class VerticalStepper extends React.Component {
                             <p className="step-explanation">
                                 Try out different ad text to see what brings
                             </p>
-                            {this.renderStepActions(3)}
+                            {this.renderStepActions(
+                                3,
+                                this.props.titleText,
+                                this.props.descriptionText
+                            )}
                         </StepContent>
                     </Step>
                 </Stepper>
@@ -200,6 +209,9 @@ const mapDispatchToProps = dispatch => ({
     },
     updateDescription: text => {
         dispatch(updateDescriptionField(text));
+    },
+    reset: () => {
+        dispatch(resetFields());
     }
 });
 

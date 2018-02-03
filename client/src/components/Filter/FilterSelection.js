@@ -1,3 +1,5 @@
+import { graphql, compose } from 'react-apollo';
+import gql from 'graphql-tag';
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import SelectField from 'material-ui/SelectField';
@@ -5,29 +7,27 @@ import MenuItem from 'material-ui/MenuItem';
 import { connect } from 'react-redux';
 import { getItemTags } from '../../redux/modules/items';
 
-// largely copy and pasted from material-ui
-
-const names = [
-    'Household Items',
-    'Musical Instruments',
-    'Physical Media',
-    'Recreational Equipment',
-    'Sporting Goods',
-    'Tools'
-];
+// const names = [
+//     'Household Items',
+//     'Musical Instruments',
+//     'Physical Media',
+//     'Recreational Equipment',
+//     'Sporting Goods',
+//     'Tools'
+// ];
 
 /**
  * `SelectField` can handle multiple selections. It is enabled with the `multiple` property.
  */
 class FilterSelection extends Component {
-    static menuItems(values) {
-        return names.map(name => (
+    static menuItems(values, names) {
+        return names.map(tag => (
             <MenuItem
-                key={name}
+                key={tag.id}
                 insetChildren
-                checked={values && values.indexOf(name) > -1}
-                value={name}
-                primaryText={name}
+                checked={values && values.indexOf(tag.id) > -1}
+                value={tag.id}
+                primaryText={tag.title}
             />
         ));
     }
@@ -42,7 +42,13 @@ class FilterSelection extends Component {
     };
 
     render() {
+        const { getTagMenu } = this.props.data;
+        if (this.props.data.error) {
+            return <div>An unexpected error occurred</div>;
+        }
+        const tags = Object.assign([], getTagMenu);
         const { values } = this.state;
+
         return (
             <div>
                 <SelectField
@@ -51,7 +57,7 @@ class FilterSelection extends Component {
                     value={values}
                     onChange={this.handleChange}
                 >
-                    {FilterSelection.menuItems(values)}
+                    {FilterSelection.menuItems(values, tags)}
                 </SelectField>
             </div>
         );
@@ -62,13 +68,23 @@ class FilterSelection extends Component {
 // retrieve the state from the store and plug it into props for react
 const mapStateToProps = state => ({
     isLoading: state.items.isLoading,
-    // items: state.items.items,
     tags: state.items.tags,
     error: state.items.error
 });
+
+const getTags = gql`
+    query getTagMenu {
+        getTagMenu {
+            id
+            title
+        }
+    }
+`;
 
 // FilterSelection.propTypes = {
 //     items: PropTypes.array.required,
 //     dispatch: PropTypes.func.required
 // };
-export default connect(mapStateToProps)(FilterSelection);
+export default compose(graphql(getTags), connect(mapStateToProps))(
+    FilterSelection
+);

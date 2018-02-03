@@ -1,6 +1,7 @@
 const UPDATE_TITLE_FIELD = 'UPDATE_TITLE_FIELD';
 const UPDATE_DESCRIPTION_FIELD = 'UPDATE_DESCRIPTION_FIELD';
 const UPDATE_IMAGE_FIELD = 'UPDATE_IMAGE_FIELD';
+const RESET_FIELDS = 'RESET_FIELDS';
 
 const DEFAULT_DESCRIPTION_TEXT = 'Profound Item Description';
 const DEFAULT_TITLE_TEXT = 'Amazing Item';
@@ -16,6 +17,10 @@ export const updateDescriptionField = descriptionText => ({
 export const updateImageField = imageUrl => ({
     type: UPDATE_IMAGE_FIELD,
     payload: imageUrl
+});
+
+export const resetFields = () => ({
+    type: RESET_FIELDS
 });
 
 export default function (
@@ -46,6 +51,14 @@ export default function (
         return {
             ...state,
             imageUrl: action.payload
+        };
+    }
+    case RESET_FIELDS: {
+        return {
+            ...state,
+            titleText: DEFAULT_TITLE_TEXT,
+            descriptionText: DEFAULT_DESCRIPTION_TEXT,
+            imageUrl: ''
         };
     }
     default:
