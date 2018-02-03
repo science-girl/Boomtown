@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-
-// import moment from 'moment';
+import moment from 'moment';
 
 import {
     Card,
@@ -22,7 +21,7 @@ const ShareItemCard = ({ owner, titleText, descriptionText, imageUrl }) => (
         </CardMedia>
         <Link to={`/profile/${owner}`}>
             <CardHeader
-                subtitle="A few seconds ago" // {moment(item.created).fromNow()}
+                subtitle={moment().fromNow()}
                 avatar="" // {item.itemowner.gravatarurl}
             />
         </Link>

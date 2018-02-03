@@ -1,17 +1,61 @@
 import React from 'react';
-import { Step, Stepper, StepLabel, StepContent } from 'material-ui/Stepper';
-import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
+import gql from 'graphql-tag';
+import { graphql, compose } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
+import { Step, Stepper, StepLabel, StepContent } from 'material-ui/Stepper';
+import { connect } from 'react-redux';
+import {
+    updateImageField,
+    updateTitleField,
+    updateDescriptionField
+} from '../../redux/modules/share';
 import ValidatedTextField from '../ValidatedTextField';
 import Filter from '../Filter/FilterSelection';
 import './styles.css';
 
 // TODO: only show 'next' button when image has been uploaded
 class VerticalStepper extends React.Component {
-    state = {
-        finished: false,
-        stepIndex: 0
+    constructor() {
+        super();
+        this.state = {
+            finished: false,
+            stepIndex: 0
+        };
+        this.submitForm = this.submitForm.bind(this);
+    }
+
+    submitForm = async (title, description, itemowner, imageurl, tags) => {
+        console.log(`in submit ${title} ${description}`);
+        await this.props
+            .mutate({
+                variables: {
+                    title,
+                    description,
+                    itemowner,
+                    imageurl,
+                    tags
+                }
+            })
+            .then(({ data }) => {
+                console.log('got data', data);
+                this.props.history.push('/items');
+            })
+            .catch(error => {
+                console.log(
+                    'there was an error sending the query',
+                    error.message
+                );
+            });
+    };
+
+    handleUpdateTitle = ({ target: { value } }) => {
+        this.props.updateTitle(value);
+    };
+
+    handleUpdateDescription = ({ target: { value } }) => {
+        this.props.updateDescription(value);
     };
 
     handleNext = () => {
@@ -58,10 +102,18 @@ class VerticalStepper extends React.Component {
                     )}
                     {step === 3 && (
                         <RaisedButton
-                            label={'Finish'}
+                            label={'Confirm'}
                             disableTouchRipple
                             disableFocusRipple
-                            onClick={this.handleNext}
+                            onClick={() =>
+                                this.submitForm(
+                                    'The Unsound',
+                                    'The devil incarnate or white noise? You decide!',
+                                    'HYbUjrVTX0Sp3c8cGUkz4du0GFU2',
+                                    'https://firebasestorage.googleapis.com/v0/b/boomtown-dfdd8.appspot.com/o/demo-images%2Fmix-tape.jpg?alt=media',
+                                    [{ id: 3 }]
+                                )
+                            }
                             style={{ marginRight: 12 }}
                         />
                     )}
@@ -102,12 +154,14 @@ class VerticalStepper extends React.Component {
                                 Tell the world about your item!
                             </p>
                             <ValidatedTextField
-                                label="title"
-                                value={this.props.titleText}
+                                label="Title"
+                                hintText="title"
+                                handleChange={this.handleUpdateTitle}
                             />
                             <ValidatedTextField
-                                label="description"
-                                value={this.props.descriptionText}
+                                label="Description"
+                                hintText="description"
+                                handleChange={this.handleUpdateDescription}
                             />
                             {this.renderStepActions(1)}
                         </StepContent>
@@ -140,4 +194,39 @@ const mapStateToProps = state => ({
     titleText: state.share.titleText,
     descriptionText: state.share.descriptionText
 });
-export default connect(mapStateToProps)(VerticalStepper);
+const mapDispatchToProps = dispatch => ({
+    updateTitle: text => {
+        dispatch(updateTitleField(text));
+    },
+    updateDescription: text => {
+        dispatch(updateDescriptionField(text));
+    }
+});
+
+const addItem = gql`
+    mutation addItem(
+        $title: String
+        $description: String
+        $imageurl: String
+        $itemowner: ID
+        $tags: [TagInput]
+    ) {
+        addItem(
+            newItem: {
+                title: $title
+                description: $description
+                imageurl: $imageurl
+                itemowner: $itemowner
+                tags: $tags
+            }
+        ) {
+            created
+            id
+        }
+    }
+`;
+
+export default compose(
+    graphql(addItem),
+    connect(mapStateToProps, mapDispatchToProps)
+)(withRouter(VerticalStepper));

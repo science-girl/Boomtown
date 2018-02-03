@@ -1,5 +1,6 @@
 import React from 'react';
 import Share from './Share';
+import { withRouter } from 'react-router-dom';
 import ShareItemCard from '../../components/ShareItemCard';
 import './styles.css';
 import { firebaseAuth } from '../../config/firebaseConfig';
@@ -15,4 +16,4 @@ const ShareContainer = () => (
     </div>
 );
 
-export default ShareContainer;
+export default withRouter(ShareContainer);
