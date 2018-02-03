@@ -1,7 +1,9 @@
 import React from 'react';
+import firebase from 'firebase';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import gql from 'graphql-tag';
+import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
 import { graphql, compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { Step, Stepper, StepLabel, StepContent } from 'material-ui/Stepper';
@@ -28,7 +30,18 @@ class VerticalStepper extends React.Component {
         this.submitForm = this.submitForm.bind(this);
     }
 
-    submitForm = async (title, description, itemowner, imageurl, tags) => {
+    uploadFile = () => {};
+
+    submitForm = async (
+        title,
+        description,
+        itemowner,
+        imageurl,
+        { tagList }
+    ) => {
+        // format tags from an array of IDs to [{id: x}, ... {id: y}]
+        const tags = [];
+        tagList.forEach(tag => tags.push({ id: tag }));
         console.log(`in submit ${title} ${description}`);
         await this.props
             .mutate({
@@ -78,25 +91,34 @@ class VerticalStepper extends React.Component {
         }
     };
 
-    renderStepActions(step, title, description) {
+    renderStepActions(step, title, description, tagList) {
         const { stepIndex } = this.state;
 
         return (
             <div style={{ margin: '12px 0' }}>
                 <div className="floatL">
-                    {step < 3 && (
-                        <RaisedButton
-                            label={stepIndex === 0 ? 'Select an Image' : 'Next'}
-                            disableTouchRipple
-                            disableFocusRipple
-                            onClick={this.handleNext}
-                            style={{ marginRight: 12 }}
-                        />
+                    {step === 0 && (
+                        <CustomUploadButton
+                            accept="image/*"
+                            storageRef={firebase.storage().ref('images')}
+                            onUploadStart={this.handleUploadStart}
+                            onUploadError={this.handleUploadError}
+                            onUploadSuccess={this.handleUploadSuccess}
+                            onProgress={this.handleProgress}
+                            style={{
+                                backgroundColor: 'gray',
+                                color: 'black',
+                                padding: 10,
+                                borderRadius: 4
+                            }}
+                        >
+                            SELECT AN IMAGE
+                        </CustomUploadButton>
                     )}
                 </div>
                 <div className="clear" />
                 <div>
-                    {step === 0 && (
+                    {step < 3 && (
                         <RaisedButton
                             label={'Next'}
                             disableTouchRipple
@@ -107,7 +129,7 @@ class VerticalStepper extends React.Component {
                     )}
                     {step === 3 && (
                         <RaisedButton
-                            label={'Confirm'}
+                            label="Confirm"
                             disableTouchRipple
                             disableFocusRipple
                             onClick={() =>
@@ -116,7 +138,7 @@ class VerticalStepper extends React.Component {
                                     `${description}`,
                                     `${firebaseAuth.currentUser.uid}`,
                                     'https://firebasestorage.googleapis.com/v0/b/boomtown-dfdd8.appspot.com/o/demo-images%2Fmix-tape.jpg?alt=media',
-                                    [{ id: 3 }]
+                                    { tagList }
                                 )
                             }
                             style={{ marginRight: 12 }}
@@ -149,6 +171,7 @@ class VerticalStepper extends React.Component {
                                 We live in a visual culture. Upload a picture
                                 for your item!
                             </p>
+
                             {this.renderStepActions(0)}
                         </StepContent>
                     </Step>
@@ -175,7 +198,7 @@ class VerticalStepper extends React.Component {
                         <StepLabel>Categorize Your Item</StepLabel>
                         <StepContent>
                             <p className="step-explanation">
-                                Try out different ad text to see what brings
+                                Now put your item in a categorical box.
                             </p>
                             <Filter />
                             {this.renderStepActions(2)}
@@ -190,7 +213,8 @@ class VerticalStepper extends React.Component {
                             {this.renderStepActions(
                                 3,
                                 this.props.titleText,
-                                this.props.descriptionText
+                                this.props.descriptionText,
+                                this.props.tagList
                             )}
                         </StepContent>
                     </Step>
@@ -201,7 +225,8 @@ class VerticalStepper extends React.Component {
 }
 const mapStateToProps = state => ({
     titleText: state.share.titleText,
-    descriptionText: state.share.descriptionText
+    descriptionText: state.share.descriptionText,
+    tagList: state.items.tagList
 });
 const mapDispatchToProps = dispatch => ({
     updateTitle: text => {

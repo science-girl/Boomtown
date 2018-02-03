@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import md5 from 'md5';
 
 import {
     Card,
@@ -10,8 +11,12 @@ import {
     CardTitle,
     CardText
 } from 'material-ui/Card';
+import { firebaseAuth } from '../../config/firebaseConfig';
+
 import './styles.css';
 import image from '../../images/item-placeholder.jpg';
+
+const GRAVATAR_URL = 'http://gravatar.com/avatar/';
 
 // largely copy and pasted code from Material-UI site
 const ShareItemCard = ({ owner, titleText, descriptionText, imageUrl }) => (
@@ -22,7 +27,7 @@ const ShareItemCard = ({ owner, titleText, descriptionText, imageUrl }) => (
         <Link to={`/profile/${owner}`}>
             <CardHeader
                 subtitle={moment().fromNow()}
-                avatar="" // {item.itemowner.gravatarurl}
+                avatar={GRAVATAR_URL + md5(`${firebaseAuth.currentUser.email}`)}
             />
         </Link>
         <CardTitle title={titleText} subtitle="" />
