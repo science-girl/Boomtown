@@ -19,7 +19,6 @@ import Filter from '../Filter/FilterSelection';
 import './styles.css';
 import { firebaseAuth } from '../../config/firebaseConfig';
 
-// TODO: only show 'next' button when image has been uploaded
 class VerticalStepper extends React.Component {
     constructor() {
         super();
@@ -32,7 +31,6 @@ class VerticalStepper extends React.Component {
 
     // Handlers for custom functionality
     // https://time2hack.com/2017/10/upload-files-to-firebase-storage-with-javascript/
-
     openFileDialog = () => document.getElementById('image').click();
 
     uploadFile = input => {
@@ -214,13 +212,13 @@ class VerticalStepper extends React.Component {
                                 Tell the world about your item!
                             </p>
                             <ValidatedTextField
+                                type="text"
                                 label="Title"
-                                hintText="title"
                                 handleChange={this.handleUpdateTitle}
                             />
                             <ValidatedTextField
+                                type="text"
                                 label="Description"
-                                hintText="description"
                                 handleChange={this.handleUpdateDescription}
                             />
                             {this.renderStepActions(1)}

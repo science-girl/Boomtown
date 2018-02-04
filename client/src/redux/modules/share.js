@@ -6,6 +6,8 @@ const TOGGLE_IMAGE_SELECTED = 'TOGGLE_IMAGE_SELECTED';
 
 const DEFAULT_DESCRIPTION_TEXT = 'Profound Item Description';
 const DEFAULT_TITLE_TEXT = 'Amazing Item';
+const DEFAULT_IMAGE =
+    'https://firebasestorage.googleapis.com/v0/b/boomtown-e933c.appspot.com/o/1517772101257-item-placeholder.jpg?alt=media&token=6db98622-0930-40a4-bc5f-f7a13589c205';
 
 export const updateTitleField = titleText => ({
     type: UPDATE_TITLE_FIELD,
@@ -33,7 +35,7 @@ export default function (
     state = {
         titleText: DEFAULT_TITLE_TEXT,
         descriptionText: DEFAULT_DESCRIPTION_TEXT,
-        imageUrl: '../../images/item-placeholder.jpg',
+        imageUrl: DEFAULT_IMAGE,
         imageSelected: true
     },
     action
@@ -64,7 +66,7 @@ export default function (
             ...state,
             titleText: DEFAULT_TITLE_TEXT,
             descriptionText: DEFAULT_DESCRIPTION_TEXT,
-            imageUrl: '',
+            imageUrl: DEFAULT_IMAGE,
             categorySelected: true,
             imageSelected: true
         };

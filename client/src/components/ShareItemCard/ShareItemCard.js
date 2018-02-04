@@ -13,7 +13,6 @@ import {
 import { firebaseAuth } from '../../config/firebaseConfig';
 
 import './styles.css';
-import image from '../../images/item-placeholder.jpg';
 
 const GRAVATAR_URL = 'http://gravatar.com/avatar/';
 
@@ -21,7 +20,7 @@ const GRAVATAR_URL = 'http://gravatar.com/avatar/';
 const ShareItemCard = ({ owner, titleText, descriptionText, imageUrl }) => (
     <Card>
         <CardMedia>
-            <img src={image || imageUrl} width="200" alt="" />
+            <img src={imageUrl} width="200" alt="" />
         </CardMedia>
         <Link to={`/profile/${owner}`}>
             <CardHeader
