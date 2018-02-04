@@ -3,7 +3,6 @@ import firebase from 'firebase';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import gql from 'graphql-tag';
-import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
 import { graphql, compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { Step, Stepper, StepLabel, StepContent } from 'material-ui/Stepper';
@@ -30,7 +29,31 @@ class VerticalStepper extends React.Component {
         this.submitForm = this.submitForm.bind(this);
     }
 
-    uploadFile = () => {};
+    // Handlers for custom functionality
+    // https://time2hack.com/2017/10/upload-files-to-firebase-storage-with-javascript/
+
+    openFileDialog = () => document.getElementById('image').click();
+
+    uploadFile = input => {
+        console.log(input.target.files[0].name);
+        // create firebase storage reference
+        const ref = firebase.storage().ref();
+        // get the file to be uploaded from the input[type="file"]
+        const file = input.target.files[0];
+        const name = `${+new Date()}-${file.name}`;
+        const metadata = {
+            contentType: file.type
+        };
+        const task = ref.child(name).put(file, metadata);
+        task
+            .then(snapshot => {
+                const url = snapshot.downloadURL;
+                console.log(url);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
 
     submitForm = async (
         title,
@@ -98,22 +121,24 @@ class VerticalStepper extends React.Component {
             <div style={{ margin: '12px 0' }}>
                 <div className="floatL">
                     {step === 0 && (
-                        <CustomUploadButton
-                            accept="image/*"
-                            storageRef={firebase.storage().ref('images')}
-                            onUploadStart={this.handleUploadStart}
-                            onUploadError={this.handleUploadError}
-                            onUploadSuccess={this.handleUploadSuccess}
-                            onProgress={this.handleProgress}
-                            style={{
-                                backgroundColor: 'gray',
-                                color: 'black',
-                                padding: 10,
-                                borderRadius: 4
-                            }}
+                        <RaisedButton
+                            label={'Select an Image'}
+                            disableTouchRipple
+                            disableFocusRipple
+                            onClick={this.openFileDialog}
+                            style={{ marginRight: 12 }}
                         >
-                            SELECT AN IMAGE
-                        </CustomUploadButton>
+                            <div className="hidden">
+                                {' '}
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={this.uploadFile}
+                                    hidden
+                                    id="image"
+                                />
+                            </div>
+                        </RaisedButton>
                     )}
                 </div>
                 <div className="clear" />
