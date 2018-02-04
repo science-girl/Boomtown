@@ -34,7 +34,7 @@ export default function (
         titleText: DEFAULT_TITLE_TEXT,
         descriptionText: DEFAULT_DESCRIPTION_TEXT,
         imageUrl: '../../images/item-placeholder.jpg',
-        imageSelected: false
+        imageSelected: true
     },
     action
 ) {
@@ -54,7 +54,6 @@ export default function (
         };
     }
     case UPDATE_IMAGE_FIELD: {
-        console.log('Updating Image Field');
         return {
             ...state,
             imageUrl: action.payload
@@ -65,7 +64,9 @@ export default function (
             ...state,
             titleText: DEFAULT_TITLE_TEXT,
             descriptionText: DEFAULT_DESCRIPTION_TEXT,
-            imageUrl: ''
+            imageUrl: '',
+            categorySelected: true,
+            imageSelected: true
         };
     }
     case TOGGLE_IMAGE_SELECTED: {

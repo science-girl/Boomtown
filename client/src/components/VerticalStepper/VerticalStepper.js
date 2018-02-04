@@ -11,6 +11,8 @@ import {
     updateImageField,
     updateTitleField,
     updateDescriptionField,
+    toggleImageSelected,
+    toggleCategorySelected,
     resetFields
 } from '../../redux/modules/share';
 import ValidatedTextField from '../ValidatedTextField';
@@ -35,7 +37,6 @@ class VerticalStepper extends React.Component {
     openFileDialog = () => document.getElementById('image').click();
 
     uploadFile = input => {
-        console.log(input.target.files[0].name);
         // create firebase storage reference
         const ref = firebase.storage().ref();
         // get the file to be uploaded from the input[type="file"]
@@ -51,7 +52,8 @@ class VerticalStepper extends React.Component {
                 console.log(url);
                 // set the url in the redux storage
                 this.props.updateImageField(url);
-                // TODO: let the user proceed to the Next step
+                // let the user proceed to the Next step
+                this.props.toggleImageSelected(false);
             })
             .catch(error => {
                 console.error(error);
@@ -146,9 +148,20 @@ class VerticalStepper extends React.Component {
                 </div>
                 <div className="clear" />
                 <div>
-                    {step < 3 && (
+                    {step < 2 && (
                         <RaisedButton
                             label={'Next'}
+                            disabled={this.props.imgSelect}
+                            disableTouchRipple
+                            disableFocusRipple
+                            onClick={this.handleNext}
+                            style={{ marginRight: 12 }}
+                        />
+                    )}
+                    {step === 2 && (
+                        <RaisedButton
+                            label={'Next'}
+                            disabled={this.props.tagList.length === 0}
                             disableTouchRipple
                             disableFocusRipple
                             onClick={this.handleNext}
@@ -187,7 +200,7 @@ class VerticalStepper extends React.Component {
     }
 
     render() {
-        const { finished, stepIndex } = this.state;
+        const { stepIndex } = this.state;
 
         return (
             <div style={{ maxWidth: 380, maxHeight: 400, margin: 'auto' }}>
@@ -236,7 +249,8 @@ class VerticalStepper extends React.Component {
                         <StepLabel>Confirm Things</StepLabel>
                         <StepContent>
                             <p className="step-explanation">
-                                Try out different ad text to see what brings
+                                If you are happy and you are ready to share,
+                                give the confirm button a smash.
                             </p>
                             {this.renderStepActions(
                                 3,
@@ -256,7 +270,8 @@ const mapStateToProps = state => ({
     titleText: state.share.titleText,
     descriptionText: state.share.descriptionText,
     imageUrl: state.share.imageUrl,
-    tagList: state.items.tagList
+    tagList: state.items.tagList,
+    imgSelect: state.share.imageSelected
 });
 const mapDispatchToProps = dispatch => ({
     updateTitle: text => {
@@ -267,6 +282,12 @@ const mapDispatchToProps = dispatch => ({
     },
     updateImageField: imageUrl => {
         dispatch(updateImageField(imageUrl));
+    },
+    toggleImageSelected: onOrOff => {
+        dispatch(toggleImageSelected(onOrOff));
+    },
+    toggleCategorySelected: onOrOff => {
+        dispatch(toggleCategorySelected(onOrOff));
     },
     reset: () => {
         dispatch(resetFields());
