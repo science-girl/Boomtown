@@ -40,7 +40,7 @@ class ItemsContainer extends Component {
     //
     // @param an item and an array of tags to match the item
     // @return the item once one of the item tags matches one of the tags in matchTags
-    hasTags(item, matchTags) {
+    static hasTags(item, matchTags) {
         for (let i = 0; i < item.tags.length; i += 1) {
             if (matchTags.some(tag => tag === item.tags[i].id)) {
                 return item;

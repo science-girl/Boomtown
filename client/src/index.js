@@ -1,10 +1,11 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ApolloProvider } from 'react-apollo';
 import { firebaseAuth } from './config/firebaseConfig';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 import registerServiceWorker from './registerServiceWorker';
 import store from './redux/store';
 import client from './config/apolloClient';
@@ -72,11 +73,6 @@ const Boomtown = () => (
         </ApolloProvider>
     </MuiThemeProvider>
 );
-
-// When these are implmented put in Route
-// <Route exact path="/profile/:userid" component={} />
-// <Route exact path="/share" component={} />
-//
 
 ReactDOM.render(<Boomtown />, document.getElementById('root'));
 registerServiceWorker();

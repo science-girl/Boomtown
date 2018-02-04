@@ -29,7 +29,6 @@ export default function (
 ) {
     switch (action.type) {
     case SUBMIT_BORROW_INFO: {
-        console.log('Updated Borrower');
         // TODO: MUTATE DB
         return {
             ...state,

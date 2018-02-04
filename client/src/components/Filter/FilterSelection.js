@@ -1,20 +1,11 @@
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import { connect } from 'react-redux';
 import { getItemTags } from '../../redux/modules/items';
-
-// const names = [
-//     'Household Items',
-//     'Musical Instruments',
-//     'Physical Media',
-//     'Recreational Equipment',
-//     'Sporting Goods',
-//     'Tools'
-// ];
 
 /**
  * `SelectField` can handle multiple selections. It is enabled with the `multiple` property.
@@ -81,10 +72,15 @@ const getTags = gql`
     }
 `;
 
-// FilterSelection.propTypes = {
-//     items: PropTypes.array.required,
-//     dispatch: PropTypes.func.required
-// };
+FilterSelection.propTypes = {
+    items: PropTypes.array.required,
+    dispatch: PropTypes.func.required
+};
+
+FilterSelection.defaultProps = {
+    items: [],
+    dispatch: () => {}
+};
 export default compose(graphql(getTags), connect(mapStateToProps))(
     FilterSelection
 );

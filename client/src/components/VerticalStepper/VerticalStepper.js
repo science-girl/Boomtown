@@ -12,7 +12,6 @@ import {
     updateTitleField,
     updateDescriptionField,
     toggleImageSelected,
-    toggleCategorySelected,
     resetFields
 } from '../../redux/modules/share';
 import ValidatedTextField from '../ValidatedTextField';
@@ -49,15 +48,12 @@ class VerticalStepper extends React.Component {
         task
             .then(snapshot => {
                 const url = snapshot.downloadURL;
-                console.log(url);
                 // set the url in the redux storage
                 this.props.updateImageField(url);
                 // let the user proceed to the Next step
                 this.props.toggleImageSelected(false);
             })
-            .catch(error => {
-                console.error(error);
-            });
+            .catch(error => error.message);
     };
 
     submitForm = async (
@@ -70,7 +66,6 @@ class VerticalStepper extends React.Component {
         // format tags from an array of IDs to [{id: x}, ... {id: y}]
         const tags = [];
         tagList.forEach(tag => tags.push({ id: tag }));
-        console.log(`in submit ${title} ${description}`);
         await this.props
             .mutate({
                 variables: {
@@ -81,19 +76,15 @@ class VerticalStepper extends React.Component {
                     tags
                 }
             })
-            .then(({ data }) => {
-                console.log('got data', data);
-                // reset title, description, image fields
-                this.props.reset();
-                // direct user to items page
-                this.props.history.push('/items');
-            })
-            .catch(error => {
-                console.log(
-                    'there was an error sending the query',
-                    error.message
-                );
-            });
+            .then(
+                (/* in case we want to show the user what was added: { data } */) => {
+                    // reset title, description, image fields
+                    this.props.reset();
+                    // direct user to items page
+                    this.props.history.push('/items');
+                }
+            )
+            .catch(error => error.message);
     };
 
     handleUpdateTitle = ({ target: { value } }) => {
@@ -285,9 +276,6 @@ const mapDispatchToProps = dispatch => ({
     },
     toggleImageSelected: onOrOff => {
         dispatch(toggleImageSelected(onOrOff));
-    },
-    toggleCategorySelected: onOrOff => {
-        dispatch(toggleCategorySelected(onOrOff));
     },
     reset: () => {
         dispatch(resetFields());

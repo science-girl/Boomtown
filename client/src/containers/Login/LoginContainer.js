@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { firebaseAuth } from '../../config/firebaseConfig';
 import Login from './Login';
 
 class LoginContainer extends Component {
-    static propTypes = {
-        // login: propTypes.func.isRequired
-    };
-
     constructor() {
         super();
         this.state = {
@@ -34,7 +29,6 @@ class LoginContainer extends Component {
                 )
                 .catch(error => {
                     this.setState({ loginError: error });
-                    console.log('error', error);
                 });
         }
     };
@@ -42,8 +36,6 @@ class LoginContainer extends Component {
         const { from } = this.props.location.state || {
             from: { pathname: '/items' }
         };
-        console.log(from);
-        console.log(`authenticated : ${this.props.authenticated}`);
         return !this.props.authenticated ? (
             <Login
                 login={this.login}

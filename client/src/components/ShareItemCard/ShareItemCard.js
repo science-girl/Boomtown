@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import md5 from 'md5';
-
 import {
     Card,
     CardHeader,
@@ -22,7 +21,7 @@ const GRAVATAR_URL = 'http://gravatar.com/avatar/';
 const ShareItemCard = ({ owner, titleText, descriptionText, imageUrl }) => (
     <Card>
         <CardMedia>
-            <img src={imageUrl || image} width="200" alt="" />
+            <img src={image || imageUrl} width="200" alt="" />
         </CardMedia>
         <Link to={`/profile/${owner}`}>
             <CardHeader
@@ -34,11 +33,6 @@ const ShareItemCard = ({ owner, titleText, descriptionText, imageUrl }) => (
         <CardText>{descriptionText}</CardText>
     </Card>
 );
-
-ShareItemCard.propTypes = {
-    // item: PropTypes.object.isRequired,
-    // owner: PropTypes.string.isRequired
-};
 
 const mapStateToProps = state => ({
     imageUrl: state.share.imageUrl,
