@@ -49,6 +49,9 @@ class VerticalStepper extends React.Component {
             .then(snapshot => {
                 const url = snapshot.downloadURL;
                 console.log(url);
+                // set the url in the redux storage
+                this.props.updateImageField(url);
+                // TODO: let the user proceed to the Next step
             })
             .catch(error => {
                 console.error(error);
@@ -114,7 +117,7 @@ class VerticalStepper extends React.Component {
         }
     };
 
-    renderStepActions(step, title, description, tagList) {
+    renderStepActions(step, title, description, tagList, imageUrl) {
         const { stepIndex } = this.state;
 
         return (
@@ -162,7 +165,7 @@ class VerticalStepper extends React.Component {
                                     `${title}`,
                                     `${description}`,
                                     `${firebaseAuth.currentUser.uid}`,
-                                    'https://firebasestorage.googleapis.com/v0/b/boomtown-dfdd8.appspot.com/o/demo-images%2Fmix-tape.jpg?alt=media',
+                                    `${imageUrl}`,
                                     { tagList }
                                 )
                             }
@@ -239,7 +242,8 @@ class VerticalStepper extends React.Component {
                                 3,
                                 this.props.titleText,
                                 this.props.descriptionText,
-                                this.props.tagList
+                                this.props.tagList,
+                                this.props.imageUrl
                             )}
                         </StepContent>
                     </Step>
@@ -251,6 +255,7 @@ class VerticalStepper extends React.Component {
 const mapStateToProps = state => ({
     titleText: state.share.titleText,
     descriptionText: state.share.descriptionText,
+    imageUrl: state.share.imageUrl,
     tagList: state.items.tagList
 });
 const mapDispatchToProps = dispatch => ({
@@ -259,6 +264,9 @@ const mapDispatchToProps = dispatch => ({
     },
     updateDescription: text => {
         dispatch(updateDescriptionField(text));
+    },
+    updateImageField: imageUrl => {
+        dispatch(updateImageField(imageUrl));
     },
     reset: () => {
         dispatch(resetFields());

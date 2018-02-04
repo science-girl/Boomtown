@@ -22,7 +22,7 @@ const GRAVATAR_URL = 'http://gravatar.com/avatar/';
 const ShareItemCard = ({ owner, titleText, descriptionText, imageUrl }) => (
     <Card>
         <CardMedia>
-            <img src={image} width="200" alt="" />
+            <img src={imageUrl || image} width="200" alt="" />
         </CardMedia>
         <Link to={`/profile/${owner}`}>
             <CardHeader
