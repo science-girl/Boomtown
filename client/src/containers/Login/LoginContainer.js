@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { firebaseAuth } from '../../config/firebaseConfig';
+import { validateEmail, validatePassword } from './validate';
 import Login from './Login';
 
 class LoginContainer extends Component {
@@ -9,15 +10,29 @@ class LoginContainer extends Component {
         super();
         this.state = {
             emailInputValue: '',
+            emailErrorValue: '',
             passwordInputValue: '',
+            passwordErrorValue: '',
+            disableSubmit: false,
             loginError: { message: '' }
         };
     }
     handleUpdateEmail = ({ target: { value } }) => {
-        this.setState({ emailInputValue: value });
+        const error = validateEmail(value);
+        this.setState({
+            emailInputValue: value,
+            emailErrorValue: validateEmail(value),
+            disableSubmit: error.length > 0
+        });
     };
     handleUpdatePassword = ({ target: { value } }) => {
-        this.setState({ passwordInputValue: value });
+        const error = validatePassword(value);
+
+        this.setState({
+            passwordInputValue: value,
+            passwordErrorValue: validatePassword(value),
+            disableSubmit: error.length > 0
+        });
     };
 
     login = () => {
@@ -40,7 +55,10 @@ class LoginContainer extends Component {
             <Login
                 login={this.login}
                 emailInputValue={this.state.emailInputValue}
+                emailErrorValue={this.state.emailErrorValue}
                 passwordInputValue={this.state.passwordInputValue}
+                passwordErrorValue={this.state.passwordErrorValue}
+                disableSubmit={this.state.disableSubmit}
                 handleUpdateEmail={this.handleUpdateEmail}
                 handleUpdatePassword={this.handleUpdatePassword}
                 loginError={this.state.loginError}

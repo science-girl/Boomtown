@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
-import ValidatedTextField from '../../components/ValidatedTextField';
+import TextField from 'material-ui/TextField';
 import './styles.css';
 import logo from '../../images/boomtown-logo.svg';
 import bottomLeft from '../../images/home-bl.svg';
@@ -13,7 +13,10 @@ const Login = ({
     handleUpdateEmail,
     handleUpdatePassword,
     emailInputValue,
+    emailErrorValue,
+    passwordErrorValue,
     passwordInputValue,
+    disableSubmit,
     loginError
 }) => (
     <div className="page login">
@@ -37,18 +40,23 @@ const Login = ({
                         autoComplete="off"
                     >
                         <div>
-                            <ValidatedTextField
+                            <TextField
                                 label="Email"
-                                handleChange={handleUpdateEmail}
+                                floatingLabelText="Email"
+                                onChange={handleUpdateEmail}
                                 value={emailInputValue}
+                                type="text"
+                                errorText={emailErrorValue}
                             />
                         </div>
                         <div>
-                            <ValidatedTextField
+                            <TextField
                                 label="Password"
+                                floatingLabelText="Password"
                                 type="password"
-                                handleChange={handleUpdatePassword}
+                                onChange={handleUpdatePassword}
                                 value={passwordInputValue}
+                                errorText={passwordErrorValue}
                             />
                         </div>
                         <RaisedButton
@@ -56,6 +64,7 @@ const Login = ({
                             onClick={login}
                             primary
                             fullWidth
+                            disabled={disableSubmit}
                             type="submit"
                         >
                             Enter

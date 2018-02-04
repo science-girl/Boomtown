@@ -1,7 +1,6 @@
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import { connect } from 'react-redux';
@@ -72,15 +71,6 @@ const getTags = gql`
     }
 `;
 
-FilterSelection.propTypes = {
-    items: PropTypes.array.required,
-    dispatch: PropTypes.func.required
-};
-
-FilterSelection.defaultProps = {
-    items: [],
-    dispatch: () => {}
-};
 export default compose(graphql(getTags), connect(mapStateToProps))(
     FilterSelection
 );
