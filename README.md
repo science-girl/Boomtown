@@ -25,12 +25,12 @@ npm start
 
 ## Built With
 
-* \*\*[React](https://reactjs.org/)
-* \*\*[Redux](https://redux.js.org/docs/introduction/)
-* \*\*[GraphQL](http://graphql.org/)
-* \*\*[ApolloClient](www.apollographql.com)
-* \*\*[Express](https://expressjs.com/)
-* \*\*[Postgres](https://www.postgresql.org/)
+* [React](https://reactjs.org/)
+* [Redux](https://redux.js.org/docs/introduction/)
+* [GraphQL](http://graphql.org/)
+* [ApolloClient](www.apollographql.com)
+* [Express](https://expressjs.com/)
+* [Postgres](https://www.postgresql.org/)
 
 ## Authors
 
