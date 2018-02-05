@@ -1,18 +1,17 @@
 import React from 'react';
+import gql from 'graphql-tag';
+
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import { connect } from 'react-redux';
-import { updateToggleBorrowWindow } from '../../redux/modules/borrow';
+import { graphql, compose } from 'react-apollo';
+import {
+    updateToggleBorrowWindow,
+    submitBorrowInfo
+} from '../../redux/modules/borrow';
 import { firebaseAuth } from '../../config/firebaseConfig';
 
-const dialogBox = ({
-    close,
-    submitBorrow,
-    isOpen,
-    itemName,
-    userName,
-    itemId
-}) => (
+const dialogBox = ({ close, isOpen, submit, itemName, userName, itemId }) => (
     <Dialog
         title="Borrow Item"
         actions={[
@@ -21,9 +20,9 @@ const dialogBox = ({
                 label="Borrow"
                 primary
                 keyboardFocused
-                onClick={() =>
-                    submitBorrow(itemId, `${firebaseAuth.currentUser.uid}`)
-                }
+                onClick={() => {
+                    submit(itemId, `${firebaseAuth.currentUser.uid}`);
+                }}
             />
         ]}
         modal={false}
@@ -45,7 +44,28 @@ const mapDispatchToProps = dispatch => ({
         return () => {
             dispatch(updateToggleBorrowWindow(onOrOff));
         };
+    },
+    updateBorrowerInfo() {
+        return () => {
+            console.log('updateBorrowerInfo');
+            dispatch(submitBorrowInfo());
+        };
     }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(dialogBox);
+const borrow = gql`
+    mutation updateItem($id: ID, $borrower: ID) {
+        updateItem(newItem: { id: $id, borrower: $borrower }) {
+            id
+        }
+    }
+`;
+
+export default compose(
+    graphql(borrow, {
+        props: ({ mutate }) => ({
+            submit: (id, borrower) => mutate({ variables: { id, borrower } })
+        })
+    }),
+    connect(mapStateToProps, mapDispatchToProps)
+)(dialogBox);

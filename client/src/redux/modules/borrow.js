@@ -1,6 +1,11 @@
 const TOGGLE_OPEN_BORROW_WINDOW = 'TOGGLE_OPEN_BORROW_WINDOW';
 const SUBMIT_BORROW_INFO = 'SUBMIT_BORROW_INFO';
+const TOGGLE_DIALOG = 'TOGGLE_DIALOG';
 
+export const closeWindow = isOpen => ({
+    type: TOGGLE_DIALOG,
+    payload: isOpen
+});
 export const updateToggleBorrowWindow = (
     isOpen,
     itemId,
@@ -29,7 +34,6 @@ export default function (
 ) {
     switch (action.type) {
     case SUBMIT_BORROW_INFO: {
-        // TODO: MUTATE DB
         return {
             ...state,
             isOpen: false,
@@ -37,6 +41,9 @@ export default function (
             itemId: '',
             itemName: ''
         };
+    }
+    case TOGGLE_DIALOG: {
+        return { ...state, isOpen: action.payload };
     }
     case TOGGLE_OPEN_BORROW_WINDOW: {
         return {

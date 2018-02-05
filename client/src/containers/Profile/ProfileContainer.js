@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 import md5 from 'md5';
 
 import Profile from './Profile';
@@ -72,9 +72,12 @@ class ProfileContainer extends Component {
     }
 }
 
-ProfileContainer.PropTypes = {
-    loading: PropTypes.bool,
-    items: PropTypes.array
+ProfileContainer.propTypes = {
+    loading: propTypes.bool.isRequired
+};
+
+ProfileContainer.defaultProps = {
+    loading: true
 };
 
 export default graphql(fetchUsers, {

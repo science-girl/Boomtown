@@ -1,13 +1,13 @@
 import gql from 'graphql-tag';
 import propTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
 import { firebaseAuth } from '../../config/firebaseConfig';
-
 import Items from './Items';
 import Loading from '../../components/Loading';
-import Dialog from '../../components/Dialog';
+import BorrowContainer from '../Borrow/BorrowContainer';
 
 const fetchItems = gql`
     query {
@@ -73,7 +73,7 @@ class ItemsContainer extends Component {
             <Loading />
         ) : (
             <div>
-                {this.props.isOpen && <Dialog />}
+                <BorrowContainer />
                 <Items
                     list={this.filterTags(
                         items,
@@ -100,10 +100,9 @@ ItemsContainer.defaultProps = {
 const mapStateToProps = state => ({
     isLoading: state.items.isLoading,
     tagList: state.items.tagList,
-    error: state.items.error,
-    isOpen: state.borrow.isOpen
+    error: state.items.error
 });
 
 export default compose(graphql(fetchItems), connect(mapStateToProps))(
-    ItemsContainer
+    withRouter(ItemsContainer)
 );

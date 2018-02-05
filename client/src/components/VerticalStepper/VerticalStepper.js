@@ -239,7 +239,7 @@ class VerticalStepper extends React.Component {
                         <StepContent>
                             <p className="step-explanation">
                                 If you are happy and you are ready to share,
-                                give the confirm button a smash.
+                                give the confirm button a click.
                             </p>
                             {this.renderStepActions(
                                 3,
