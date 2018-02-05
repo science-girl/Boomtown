@@ -1,8 +1,11 @@
-// TODO: tags and items are the only thing to DataLoader
-// UN Data Load the others and get directly from jsonResource
 module.exports = ({
-  postgresResource: { getItem, getUserOwnedItems, getBorrowedItems },
-  //  js: { getUserOwnedItems /*, fetchUsers, getTags*/ },
+  postgresResource: {
+    getItem,
+    getUserOwnedItems,
+    getBorrowedItems,
+    addItem,
+    updateItem
+  },
   firebaseResource: { fetchUsers, getUser }
 }) => {
   return {
@@ -16,35 +19,23 @@ module.exports = ({
       users(root, { arg }, context) {
         return context.loaders.getUsers.load(arg);
       },
-      item(root, { id }, context) {
+      item(id) {
         return getItem(id);
+      },
+      getTagMenu(root, args, context) {
+        return context.loaders.getTagMenu.load(args);
       }
     },
     Mutation: {
-      // Destructuring an inner object; nested destructuring
-      // addItem(root, {newItem: {title}}){
-      //   return {title};
-      // }
-      addItem(root, payload) {
-        //TODO: save this new item to the db
-        //TODO: must return new item thanks to our mutation schema
-        return {
-          title: payload.newItem.title,
-          description: payload.newItem.description
-        };
+      addItem(root, { newItem }) {
+        return addItem(newItem);
       },
-      updateItem(root, payload) {
-        //console.log(payload.newItem.borrower);
-        return {
-          id: payload.newItem.id,
-          //borrower: payload.newItem.borrower,
-          title: payload.newItem.title
-        };
+      updateItem(root, { newItem }) {
+        return updateItem(newItem);
       }
     },
     Item: {
       itemowner(item) {
-        console.log(item);
         return getUser(item.itemowner);
       },
       borrower(item) {
@@ -53,7 +44,6 @@ module.exports = ({
         } else return null;
       },
       tags({ id }, args, context) {
-        console.log("tag item id: " + id);
         return context.loaders.getTags.load(id);
       }
     },

@@ -15,7 +15,6 @@ const initResolvers = require("./api/resolvers");
 const app = express();
 config(app);
 
-//let js = require("./api/resources/jsonResource")(app);
 let postgresResource = require("./api/resources/postgresResource");
 let firebaseResource = require("./api/resources/firebaseResource")(app);
 
@@ -25,7 +24,6 @@ function start(postgresResource) {
   const schema = makeExecutableSchema({
     typeDefs,
     resolvers: initResolvers({
-      //js,
       postgresResource,
       firebaseResource
     })

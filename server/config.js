@@ -7,11 +7,8 @@ module.exports = app => {
   app.set("PGPORT", process.env.PG_PORT || "5432");
 
   // GraphQL config
-  //  app.set("GQL_PORT", process.env.GQL_PORT || "3002");
   // Express config (GraphQL included)
   app.set("PORT", process.env.PORT || "3002");
-  // Temporary
-  app.set("JSON_PORT", "3001");
 
   // Initialize firebase app
   app.set("FIREBASE_CONFIG", {

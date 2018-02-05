@@ -26,21 +26,10 @@ module.exports = app => {
     async getUser(userid) {
       let user = await db.ref(`users/${userid}`).once("value");
       user = user.val();
-      console.log(user);
       return {
         id: userid,
         ...user
       };
     }
-    //   return new Promise((resolve, reject) => {
-    //     db
-    //       .ref(`/users/${userid}`)
-    //       .once("value")
-    //       .then(function(snapshot) {
-    //         console.log(snapshot.val());
-    //         resolve(snapshot.val());
-    //       });
-    //   });
-    // }
   };
 };

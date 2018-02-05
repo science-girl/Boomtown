@@ -8,17 +8,19 @@ const DataLoader = require("dataloader");
 
 module.exports = ({
   // destructure so we can just say getUserOwneditems
-  postgresResource: { getAllItems, getTags, fetchItems },
+  postgresResource: { getAllItems, getTags, fetchItems, getTagMenu },
   firebaseResource: { getUser }
 }) => {
   return {
+    getTagMenu: new DataLoader(ids =>
+      Promise.all(ids.map(id => getTagMenu(id)))
+    ),
     getTags: new DataLoader(ids => Promise.all(ids.map(id => getTags(id)))),
     sharedItems: new DataLoader(ids => Promise.all(ids.map(id => getUser(id)))),
     getAllItems: new DataLoader(ids =>
       Promise.all(ids.map(id => getAllItems(id)))
     ),
     getUser: new DataLoader(ids => Promise.all(ids.map(id => getUser(id)))),
-    //getUser: new DataLoader(ids => Promise.all(ids.map(id => fetchUsers(id)))),
     getUsers: new DataLoader(ids => Promise.all(ids.map(id => getUser(id)))),
     getItem: new DataLoader(ids => Promise.all(ids.map(id => fetchItems(id)))),
     borrowedItems: new DataLoader(ids =>

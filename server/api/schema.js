@@ -31,14 +31,14 @@ module.exports = `type Tag{
   input AddItemInput{
     imageurl: String
     title: String
+    itemowner: ID
     description: String
     tags: [TagInput]
   }
 
   input UpdateItemInput{
     id: ID
-    #borrower: User
-    title: String
+    borrower: ID
   }
 
   # POST (Get, Put, Delete) request
@@ -55,6 +55,7 @@ module.exports = `type Tag{
     item(id:ID): Item
     users: [User]
     user(id:ID): User
+    getTagMenu: [Tag]
   }
 
 `;
