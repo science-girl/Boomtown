@@ -43,3 +43,5 @@ npm start
 ## Acknowledgments
 
 * Thanks to the RED Team for all their assistance promoting local share economies.
+
+![Boomtown Screenshot](https://firebasestorage.googleapis.com/v0/b/boomtown-e933c.appspot.com/o/1517711653229-Screen%20Shot%202018-02-01%20at%2011.11.23%20PM.png?alt=media&token=7862c2ad-a53b-4c68-a9d0-7d7f354854ed)
