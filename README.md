@@ -1,6 +1,6 @@
 # Boomtown
 
-Boomtown is a React/Redux application designed for users to partake in a sharing economy by listing items online and borrowing items from other users. Users can filter items by selecting tag(s) and view items in a masonry-style layout (resembling Instagram and Pinterest).
+Boomtown is a React/Redux application designed for users to partake in a sharing economy by listing items online and borrowing items from other users. Users can filter items by selecting tag(s) and view items in a masonry-style layout (resembling Instagram and Pinterest). Users can share items and borrow items from other users in the community.
 
 ## Installation
 
@@ -31,6 +31,10 @@ npm start
 * [ApolloClient](www.apollographql.com)
 * [Express](https://expressjs.com/)
 * [Postgres](https://www.postgresql.org/)
+
+## Known Issues
+
+* When a user borrows and returned to the items page, the item still appears available for borrowing until a manual page refresh. May be due to caching.
 
 ## Authors
 
