@@ -134,7 +134,6 @@ module.exports = async app => {
           updateBorrowerQuery,
           updateValues
         );
-        console.log(itemResult);
         return itemResult.rows;
       } catch (e) {
         await client.query("ROLLBACK");
