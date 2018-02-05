@@ -34,7 +34,7 @@ npm start
 
 ## Known Issues
 
-* When a user borrows and returned to the items page, the item still appears available for borrowing until a manual page refresh. May be due to caching.
+* When a user borrows and is returned to the items page, the item still appears available for borrowing until a manual page refresh. May be due to caching.
 
 ## Authors
 
