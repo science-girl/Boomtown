@@ -73,7 +73,7 @@ class ItemsContainer extends Component {
             <Loading />
         ) : (
             <div>
-                <BorrowContainer />
+                {this.props.isOpen && <BorrowContainer />}
                 <Items
                     list={this.filterTags(
                         items,
@@ -100,9 +100,13 @@ ItemsContainer.defaultProps = {
 const mapStateToProps = state => ({
     isLoading: state.items.isLoading,
     tagList: state.items.tagList,
-    error: state.items.error
+    error: state.items.error,
+    isOpen: state.borrow.isOpen
 });
 
-export default compose(graphql(fetchItems), connect(mapStateToProps))(
-    withRouter(ItemsContainer)
+export default withRouter(
+    compose(graphql(fetchItems), connect(mapStateToProps))(ItemsContainer)
 );
+// export default compose(graphql(fetchItems), connect(mapStateToProps))(
+//     withRouter(ItemsContainer)
+// );

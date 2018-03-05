@@ -19,13 +19,45 @@ class BorrowContainer extends Component {
                 variables: {
                     id,
                     borrower
-                }
+                },
+                refetchQueries: [
+                    {
+                        query: gql`
+                            query {
+                                items {
+                                    id
+                                    title
+                                    itemowner {
+                                        id
+                                        bio
+                                        email
+                                        fullname
+                                    }
+                                    borrower {
+                                        id
+                                        fullname
+                                    }
+                                    imageurl
+                                    description
+                                    available
+                                    created
+                                    tags {
+                                        id
+                                        title
+                                    }
+                                }
+                            }
+                        `
+                    }
+                ]
             })
             .then(
                 (/* in case we want to show the user what was added: { data } */) => {
                     store.dispatch(submitBorrowInfo());
                     // direct user to items page
+                    // this.props.history.replace({ pathname: '/items' });
                     this.props.history.push('/items');
+                    this.forceUpdate();
                 }
             )
             .catch(error => error.message);
@@ -34,7 +66,7 @@ class BorrowContainer extends Component {
     render() {
         return (
             <div>
-                {this.props.isOpen && <Dialog submitBorrow={this.borrowItem} />}
+                <Dialog submitBorrow={this.borrowItem} />
             </div>
         );
     }
@@ -52,6 +84,6 @@ const mapStateToProps = state => ({
     isOpen: state.borrow.isOpen
 });
 
-export default compose(graphql(borrow), connect(mapStateToProps))(
-    withRouter(BorrowContainer)
+export default withRouter(
+    compose(graphql(borrow), connect(mapStateToProps))(BorrowContainer)
 );

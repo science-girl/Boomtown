@@ -72,7 +72,37 @@ class VerticalStepper extends React.Component {
                     itemowner,
                     imageurl,
                     tags
-                }
+                },
+                refetchQueries: [
+                    {
+                        query: gql`
+                            query {
+                                items {
+                                    id
+                                    title
+                                    itemowner {
+                                        id
+                                        bio
+                                        email
+                                        fullname
+                                    }
+                                    borrower {
+                                        id
+                                        fullname
+                                    }
+                                    imageurl
+                                    description
+                                    available
+                                    created
+                                    tags {
+                                        id
+                                        title
+                                    }
+                                }
+                            }
+                        `
+                    }
+                ]
             })
             .then(
                 (/* in case we want to show the user what was added: { data } */) => {
